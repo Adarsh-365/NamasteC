@@ -25,7 +25,7 @@ export default function Footer() {
       <style>{`
         @media (max-width: 1024px) {
           footer > div > div {
-            grid-template-columns: repeat(3, 1fr) !important;
+            grid-template-columns: repeat(2, 1fr) !important;
           }
         }
         
@@ -199,7 +199,7 @@ export default function Footer() {
         <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
           <div style={{ 
             display: 'grid', 
-            gridTemplateColumns: 'repeat(5, 1fr)', 
+            gridTemplateColumns: 'repeat(4, 1fr)', 
             gap: '40px', 
             marginBottom: '50px',
           }}>
@@ -325,43 +325,6 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Resources */}
-          <div style={{ minWidth: 0 }}>
-            <h4 style={{ fontSize: '1.1rem', marginBottom: '20px', color: 'var(--accent-green)', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '1px' }}>Resources</h4>
-            <ul style={{ listStyle: 'none', padding: 0, fontSize: '0.9rem', lineHeight: '2.2' }}>
-              {[
-                { label: 'Import Guide', action: () => alert('📚 China Import Guide: A comprehensive guide is being prepared with import procedures, documentation, and compliance requirements.') },
-                { label: 'Sourcing Tips', action: () => alert('💡 China Sourcing Tips: Learn best practices for finding and working with Chinese suppliers. Guide coming soon!') },
-                { label: 'Success Stories', action: () => alert('⭐ Success Stories: Read how Indian businesses have successfully sourced from China through Namaste China. Case studies coming soon!') },
-                { label: 'FAQ', action: () => alert('❓ Frequently Asked Questions: Common questions about sourcing, verification, logistics, and payments. FAQ page in development.') }
-              ].map((item, idx) => (
-                <li 
-                  key={idx}
-                  onClick={item.action}
-                  style={{ 
-                    opacity: 0.8, 
-                    cursor: 'pointer', 
-                    transition: 'all 0.3s ease',
-                    paddingLeft: '0'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.opacity = '1';
-                    e.currentTarget.style.paddingLeft = '10px';
-                    e.currentTarget.style.color = 'var(--accent-green)';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.opacity = '0.8';
-                    e.currentTarget.style.paddingLeft = '0';
-                    e.currentTarget.style.color = 'white';
-                  }}
-                >
-                  <i className="fa-solid fa-chevron-right" style={{ fontSize: '0.7rem', marginRight: '8px' }}></i>
-                  {item.label}
-                </li>
-              ))}
-            </ul>
-          </div>
-
           {/* Contact Info with Full Addresses */}
           <div style={{ minWidth: 0 }}>
             <h4 style={{ fontSize: '1.1rem', marginBottom: '20px', color: 'var(--accent-green)', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '1px' }}>Contact Us</h4>
@@ -428,32 +391,11 @@ export default function Footer() {
               © 2026 Namaste China. All rights reserved.
             </p>
             <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap', fontSize: '0.85rem', opacity: 0.7 }}>
-              <span 
-                onClick={() => alert('Privacy Policy: Namaste China ensures complete data privacy for our B2B partners. We do not share client information with third parties. Detailed policy coming soon.')}
-                style={{ cursor: 'pointer', transition: 'opacity 0.3s' }}
-                onMouseEnter={(e) => e.currentTarget.style.opacity = '1'}
-                onMouseLeave={(e) => e.currentTarget.style.opacity = '0.7'}
-              >
-                Privacy Policy
-              </span>
+              <span>Privacy Policy</span>
               <span style={{ opacity: 0.4 }}>|</span>
-              <span 
-                onClick={() => alert('Terms & Conditions: All sourcing agreements are governed by mutual trade MoUs. Detailed terms document in preparation.')}
-                style={{ cursor: 'pointer', transition: 'opacity 0.3s' }}
-                onMouseEnter={(e) => e.currentTarget.style.opacity = '1'}
-                onMouseLeave={(e) => e.currentTarget.style.opacity = '0.7'}
-              >
-                Terms & Conditions
-              </span>
+              <span>Terms & Conditions</span>
               <span style={{ opacity: 0.4 }}>|</span>
-              <span 
-                onClick={() => alert('Refund Policy: Deposits are refundable under specific conditions outlined in service agreements. Contact us for details.')}
-                style={{ cursor: 'pointer', transition: 'opacity 0.3s' }}
-                onMouseEnter={(e) => e.currentTarget.style.opacity = '1'}
-                onMouseLeave={(e) => e.currentTarget.style.opacity = '0.7'}
-              >
-                Refund Policy
-              </span>
+              <span>Refund Policy</span>
             </div>
           </div>
           <p style={{ fontSize: '0.8rem', opacity: 0.5, margin: 0, textAlign: 'center', fontStyle: 'italic' }}>
