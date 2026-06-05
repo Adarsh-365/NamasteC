@@ -1,22 +1,212 @@
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
 export default function Footer() {
   const navigate = useNavigate();
+  const [hoveredSocial, setHoveredSocial] = useState(null);
 
   const handlePageSelect = (path) => {
     navigate(path);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const handleWhatsApp = () => {
+    window.open('https://wa.me/919370947790?text=Hi%20Namaste%20China%2C%20I%20would%20like%20to%20discuss%20sourcing%20from%20China.', '_blank');
+  };
+
+  const handleConsultation = () => {
+    navigate('/contact');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
-    <footer style={{ background: 'linear-gradient(135deg, #0a3d31 0%, #0d4d3e 100%)', color: 'white', padding: '80px 5% 0', marginTop: '80px' }}>
-      {/* Main Footer Content */}
-      <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '50px', marginBottom: '60px' }}>
+    <>
+      {/* Responsive Styles */}
+      <style>{`
+        @media (max-width: 1024px) {
+          footer > div > div {
+            grid-template-columns: repeat(3, 1fr) !important;
+          }
+        }
+        
+        @media (max-width: 768px) {
+          footer > div > div {
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 35px !important;
+          }
           
-          {/* Company Info - LEFT MOST */}
-          <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '20px' }}>
+          footer {
+            padding: 50px 5% 0 !important;
+          }
+        }
+        
+        @media (max-width: 480px) {
+          footer > div > div {
+            grid-template-columns: 1fr !important;
+            gap: 30px !important;
+          }
+          
+          footer {
+            padding: 40px 5% 0 !important;
+          }
+          
+          .pre-footer-cta {
+            padding: 40px 5% !important;
+          }
+          
+          .pre-footer-cta h2 {
+            font-size: 1.8rem !important;
+          }
+          
+          .pre-footer-cta p {
+            font-size: 1rem !important;
+          }
+          
+          .pre-footer-badges {
+            gap: 20px !important;
+          }
+          
+          .pre-footer-badges > div {
+            font-size: 0.85rem !important;
+          }
+          
+          .pre-footer-buttons {
+            flex-direction: column !important;
+            width: 100% !important;
+          }
+          
+          .pre-footer-buttons button {
+            width: 100% !important;
+            justify-content: center !important;
+          }
+        }
+      `}</style>
+      
+      {/* Pre-Footer CTA Section */}
+      <section className="pre-footer-cta" style={{
+        background: 'linear-gradient(135deg, var(--primary-green) 0%, #0a5a47 100%)',
+        padding: '60px 5%',
+        marginTop: '80px',
+        position: 'relative',
+        overflow: 'hidden'
+      }}>
+        <div style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: 'url("data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'0.03\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")',
+          opacity: 0.4
+        }}></div>
+        
+        <div style={{ maxWidth: '1200px', margin: '0 auto', position: 'relative', zIndex: 1, textAlign: 'center' }}>
+          <h2 style={{ fontSize: '2.5rem', fontWeight: '800', color: 'white', marginBottom: '15px', lineHeight: '1.2' }}>
+            Ready to Source Products from China?
+          </h2>
+          <p style={{ fontSize: '1.15rem', color: 'rgba(255,255,255,0.9)', marginBottom: '35px', maxWidth: '700px', margin: '0 auto 35px' }}>
+            Get expert guidance from our Mumbai and China teams. We handle everything from supplier verification to doorstep delivery.
+          </p>
+          
+          {/* Trust Badges */}
+          <div className="pre-footer-badges" style={{
+            display: 'flex',
+            justifyContent: 'center',
+            gap: '35px',
+            flexWrap: 'wrap',
+            marginBottom: '40px'
+          }}>
+            {[
+              { icon: 'fa-shield-halved', text: '500+ Suppliers Verified' },
+              { icon: 'fa-users', text: '100+ Indian Businesses Served' },
+              { icon: 'fa-earth-asia', text: 'On-Ground Team in China' },
+              { icon: 'fa-truck-fast', text: 'End-to-End Import Support' }
+            ].map((badge, idx) => (
+              <div key={idx} style={{ display: 'flex', alignItems: 'center', gap: '10px', color: 'white' }}>
+                <i className={`fa-solid ${badge.icon}`} style={{ fontSize: '1.3rem', color: 'var(--accent-green)' }}></i>
+                <span style={{ fontSize: '0.95rem', fontWeight: '600' }}>{badge.text}</span>
+              </div>
+            ))}
+          </div>
+
+          {/* CTA Buttons */}
+          <div className="pre-footer-buttons" style={{ display: 'flex', gap: '20px', justifyContent: 'center', flexWrap: 'wrap' }}>
+            <button 
+              onClick={handleConsultation}
+              style={{
+                background: 'white',
+                color: 'var(--primary-green)',
+                border: 'none',
+                padding: '16px 40px',
+                fontSize: '1.1rem',
+                fontWeight: '700',
+                borderRadius: '50px',
+                cursor: 'pointer',
+                transition: 'all 0.3s ease',
+                boxShadow: '0 4px 15px rgba(0,0,0,0.2)',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '10px'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'translateY(-3px)';
+                e.currentTarget.style.boxShadow = '0 6px 20px rgba(0,0,0,0.3)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.boxShadow = '0 4px 15px rgba(0,0,0,0.2)';
+              }}
+            >
+              <i className="fa-solid fa-calendar-check"></i>
+              Book Free Consultation
+            </button>
+            
+            <button 
+              onClick={handleWhatsApp}
+              style={{
+                background: '#25D366',
+                color: 'white',
+                border: '2px solid white',
+                padding: '16px 40px',
+                fontSize: '1.1rem',
+                fontWeight: '700',
+                borderRadius: '50px',
+                cursor: 'pointer',
+                transition: 'all 0.3s ease',
+                boxShadow: '0 4px 15px rgba(0,0,0,0.2)',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '10px'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'translateY(-3px)';
+                e.currentTarget.style.boxShadow = '0 6px 20px rgba(0,0,0,0.3)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.boxShadow = '0 4px 15px rgba(0,0,0,0.2)';
+              }}
+            >
+              <i className="fa-brands fa-whatsapp" style={{ fontSize: '1.3rem' }}></i>
+              WhatsApp Us Now
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* Main Footer */}
+      <footer style={{ background: 'linear-gradient(135deg, #0a3d31 0%, #0d4d3e 100%)', color: 'white', padding: '60px 5% 0' }}>
+        <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
+          <div style={{ 
+            display: 'grid', 
+            gridTemplateColumns: 'repeat(5, 1fr)', 
+            gap: '40px', 
+            marginBottom: '50px',
+          }}>
+          
+          {/* Company Info */}
+          <div style={{ minWidth: 0 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '20px', flexWrap: 'wrap' }}>
               <i className="fa-solid fa-earth-asia" style={{ fontSize: '2rem', color: 'var(--accent-green)' }}></i>
               <h3 style={{ fontSize: '1.5rem', margin: 0 }}>Namaste China</h3>
             </div>
@@ -24,37 +214,34 @@ export default function Footer() {
               India's trusted gateway to verified Chinese manufacturers. We bridge borders with transparency, compliance, and on-ground support.
             </p>
             
-            {/* Social Links */}
-            <div style={{ display: 'flex', gap: '15px', marginBottom: '25px' }}>
+            {/* Social Links with Enhanced Styling */}
+            <div style={{ display: 'flex', gap: '12px', marginTop: '20px', flexWrap: 'wrap' }}>
               {[
-                { icon: 'fa-linkedin', link: '#', color: '#0A66C2' },
-                { icon: 'fa-whatsapp', link: 'https://wa.me/919370947790', color: '#25D366' },
-                { icon: 'fa-facebook', link: '#', color: '#1877F2' },
-                { icon: 'fa-instagram', link: 'https://www.instagram.com/namastechina5/', color: '#E4405F' }
+                { icon: 'fa-linkedin', link: '#', color: '#0A66C2', name: 'LinkedIn' },
+                { icon: 'fa-whatsapp', link: 'https://wa.me/919370947790', color: '#25D366', name: 'WhatsApp' },
+                { icon: 'fa-facebook', link: '#', color: '#1877F2', name: 'Facebook' },
+                { icon: 'fa-instagram', link: 'https://www.instagram.com/namastechina5/', color: '#E4405F', name: 'Instagram' }
               ].map((social, idx) => (
                 <a 
                   key={idx}
                   href={social.link}
                   target="_blank"
                   rel="noopener noreferrer"
+                  title={social.name}
+                  onMouseEnter={() => setHoveredSocial(idx)}
+                  onMouseLeave={() => setHoveredSocial(null)}
                   style={{ 
                     width: '45px', 
                     height: '45px', 
                     borderRadius: '50%', 
-                    background: 'rgba(255,255,255,0.1)', 
+                    background: hoveredSocial === idx ? social.color : 'rgba(255,255,255,0.1)', 
                     display: 'flex', 
                     alignItems: 'center', 
                     justifyContent: 'center',
                     transition: 'all 0.3s ease',
-                    border: '1px solid rgba(255,255,255,0.2)'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.background = social.color;
-                    e.currentTarget.style.transform = 'translateY(-3px)';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.background = 'rgba(255,255,255,0.1)';
-                    e.currentTarget.style.transform = 'translateY(0)';
+                    border: hoveredSocial === idx ? `2px solid ${social.color}` : '2px solid rgba(255,255,255,0.2)',
+                    transform: hoveredSocial === idx ? 'translateY(-5px) scale(1.1)' : 'translateY(0) scale(1)',
+                    boxShadow: hoveredSocial === idx ? `0 5px 15px ${social.color}40` : 'none'
                   }}
                 >
                   <i className={`fa-brands ${social.icon}`} style={{ fontSize: '1.2rem', color: 'white' }}></i>
@@ -64,14 +251,14 @@ export default function Footer() {
           </div>
 
           {/* Services */}
-          <div>
-            <h4 style={{ fontSize: '1.1rem', marginBottom: '25px', color: 'var(--accent-green)', fontWeight: '700' }}>Our Services</h4>
+          <div style={{ minWidth: 0 }}>
+            <h4 style={{ fontSize: '1.1rem', marginBottom: '20px', color: 'var(--accent-green)', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '1px' }}>Our Services</h4>
             <ul style={{ listStyle: 'none', padding: 0, fontSize: '0.9rem', lineHeight: '2.2' }}>
               {[
                 { label: 'Product Sourcing', path: '/sourcing' },
                 { label: 'Supplier Verification', path: '/verification' },
-                { label: 'Factory Visits & Tours', path: '/factory-visits' },
-                { label: 'Import & Logistics', path: '/import-assistance' },
+                { label: 'Factory Visits', path: '/factory-visits' },
+                { label: 'Import Assistance', path: '/import-assistance' },
                 { label: 'Trade Consulting', path: '/trade-consulting' },
                 { label: 'Canton Fair 2026', path: '/canton-fair' }
               ].map((item, idx) => (
@@ -103,19 +290,17 @@ export default function Footer() {
           </div>
 
           {/* Company */}
-          <div>
-            <h4 style={{ fontSize: '1.1rem', marginBottom: '25px', color: 'var(--accent-green)', fontWeight: '700' }}>Company</h4>
+          <div style={{ minWidth: 0 }}>
+            <h4 style={{ fontSize: '1.1rem', marginBottom: '20px', color: 'var(--accent-green)', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '1px' }}>Company</h4>
             <ul style={{ listStyle: 'none', padding: 0, fontSize: '0.9rem', lineHeight: '2.2' }}>
               {[
                 { label: 'About Us', path: '/about' },
                 { label: 'Membership Plans', path: '/membership' },
-                { label: 'Contact Us', path: '/contact' },
-                { label: 'Privacy Policy', action: () => alert('Privacy Policy: Namaste China ensures complete data privacy for our B2B partners. Detailed policy coming soon.') },
-                { label: 'Terms & Conditions', action: () => alert('Terms & Conditions document is being prepared. All transactions are legally structured.') }
+                { label: 'Contact Us', path: '/contact' }
               ].map((item, idx) => (
                 <li 
                   key={idx}
-                  onClick={() => item.path ? handlePageSelect(item.path) : item.action()}
+                  onClick={() => handlePageSelect(item.path)}
                   style={{ 
                     opacity: 0.8, 
                     cursor: 'pointer', 
@@ -140,47 +325,83 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Contact Info - RIGHT MOST */}
-          <div>
-            <h4 style={{ fontSize: '1.1rem', marginBottom: '25px', color: 'var(--accent-green)', fontWeight: '700' }}>Contact Us</h4>
+          {/* Resources */}
+          <div style={{ minWidth: 0 }}>
+            <h4 style={{ fontSize: '1.1rem', marginBottom: '20px', color: 'var(--accent-green)', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '1px' }}>Resources</h4>
+            <ul style={{ listStyle: 'none', padding: 0, fontSize: '0.9rem', lineHeight: '2.2' }}>
+              {[
+                { label: 'Import Guide', action: () => alert('📚 China Import Guide: A comprehensive guide is being prepared with import procedures, documentation, and compliance requirements.') },
+                { label: 'Sourcing Tips', action: () => alert('💡 China Sourcing Tips: Learn best practices for finding and working with Chinese suppliers. Guide coming soon!') },
+                { label: 'Success Stories', action: () => alert('⭐ Success Stories: Read how Indian businesses have successfully sourced from China through Namaste China. Case studies coming soon!') },
+                { label: 'FAQ', action: () => alert('❓ Frequently Asked Questions: Common questions about sourcing, verification, logistics, and payments. FAQ page in development.') }
+              ].map((item, idx) => (
+                <li 
+                  key={idx}
+                  onClick={item.action}
+                  style={{ 
+                    opacity: 0.8, 
+                    cursor: 'pointer', 
+                    transition: 'all 0.3s ease',
+                    paddingLeft: '0'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.opacity = '1';
+                    e.currentTarget.style.paddingLeft = '10px';
+                    e.currentTarget.style.color = 'var(--accent-green)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.opacity = '0.8';
+                    e.currentTarget.style.paddingLeft = '0';
+                    e.currentTarget.style.color = 'white';
+                  }}
+                >
+                  <i className="fa-solid fa-chevron-right" style={{ fontSize: '0.7rem', marginRight: '8px' }}></i>
+                  {item.label}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Contact Info with Full Addresses */}
+          <div style={{ minWidth: 0 }}>
+            <h4 style={{ fontSize: '1.1rem', marginBottom: '20px', color: 'var(--accent-green)', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '1px' }}>Contact Us</h4>
             
-            {/* Address */}
-            <div style={{ marginBottom: '25px', padding: '20px', background: 'rgba(255,255,255,0.05)', borderRadius: '10px', borderLeft: '4px solid var(--accent-green)' }}>
-              <p style={{ fontWeight: '600', marginBottom: '10px', color: 'var(--accent-green)', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <i className="fa-solid fa-location-dot"></i> Mumbai Office
+            {/* Mumbai Office */}
+            <div style={{ marginBottom: '20px' }}>
+              <p style={{ fontWeight: '600', marginBottom: '8px', color: 'var(--accent-green)', display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.9rem' }}>
+                <i className="fa-solid fa-location-dot"></i> India Office
               </p>
-              <p style={{ fontSize: '0.9rem', opacity: 0.85, lineHeight: '1.6', marginBottom: '15px' }}>
-                Office No. 19 & 20, Sector 16B,<br />
-                Ulwe, Navi Mumbai 410206<br />
-                Maharashtra, India
+              <p style={{ fontSize: '0.8rem', opacity: 0.85, lineHeight: '1.5', margin: 0 }}>
+                Office No. 123, First Floor,<br />
+                Mahaveer Market, Plot No. 1,<br />
+                Sector 18, Vashi,<br />
+                Navi Mumbai - 400703
               </p>
-              
-              {/* Google Map Embed */}
-              <div style={{ marginTop: '15px', borderRadius: '8px', overflow: 'hidden', border: '2px solid rgba(255,255,255,0.1)' }}>
-                <iframe 
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3773.3857907265634!2d73.0053!3d18.9698!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7e902f23fffff%3A0xfdc431c6bd23f16e!2sOffice%20No.%2019%20%26%2020%2C%20Sector%2016B%2C%20Ulwe%2C%20Navi%20Mumbai!5e0!3m2!1sen!2sin!4v1635678901234!5m2!1sen!2sin"
-                  width="100%"
-                  height="150"
-                  style={{ border: 0, display: 'block' }}
-                  allowFullScreen=""
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                  title="Namaste China Mumbai Office Location"
-                ></iframe>
-              </div>
             </div>
 
-            {/* Contact Details */}
-            <div style={{ fontSize: '0.9rem', opacity: 0.9, lineHeight: '2.2' }}>
-              <p style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px' }}>
-                <i className="fa-solid fa-envelope" style={{ color: 'var(--accent-green)', width: '20px', fontSize: '1.1rem' }}></i>
+            {/* China Office */}
+            <div style={{ marginBottom: '20px' }}>
+              <p style={{ fontWeight: '600', marginBottom: '8px', color: '#d4af37', display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.9rem' }}>
+                <i className="fa-solid fa-location-dot"></i> China Office
+              </p>
+              <p style={{ fontSize: '0.8rem', opacity: 0.85, lineHeight: '1.5', margin: 0 }}>
+                Xianghai International Financial Center<br />
+                (Poly Sky-North Tower),<br />
+                No. 7 Jin Yuan Road,<br />
+                Nanhai District, Foshan City
+              </p>
+            </div>
+
+            <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '15px' }}>
+              <p style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px', fontSize: '0.85rem', wordBreak: 'break-word' }}>
+                <i className="fa-solid fa-envelope" style={{ color: 'var(--accent-green)', width: '18px', flexShrink: 0 }}></i>
                 <a href="mailto:support@namastechina.org" style={{ color: 'white', textDecoration: 'none', transition: 'color 0.3s' }} onMouseEnter={(e) => e.currentTarget.style.color = 'var(--accent-green)'} onMouseLeave={(e) => e.currentTarget.style.color = 'white'}>
                   support@namastechina.org
                 </a>
               </p>
-              <p style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                <i className="fa-brands fa-whatsapp" style={{ color: 'var(--accent-green)', width: '20px', fontSize: '1.1rem' }}></i>
-                <a href="https://wa.me/919370947790" target="_blank" rel="noopener noreferrer" style={{ color: 'white', textDecoration: 'none', transition: 'color 0.3s' }} onMouseEnter={(e) => e.currentTarget.style.color = 'var(--accent-green)'} onMouseLeave={(e) => e.currentTarget.style.color = 'white'}>
+              <p style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.85rem' }}>
+                <i className="fa-brands fa-whatsapp" style={{ color: '#25D366', width: '18px', flexShrink: 0 }}></i>
+                <a href="https://wa.me/919370947790" target="_blank" rel="noopener noreferrer" style={{ color: 'white', textDecoration: 'none', transition: 'color 0.3s' }} onMouseEnter={(e) => e.currentTarget.style.color = '#25D366'} onMouseLeave={(e) => e.currentTarget.style.color = 'white'}>
                   +91 93709 47790
                 </a>
               </p>
@@ -188,25 +409,59 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Bottom Bar */}
+        {/* Enhanced Bottom Bar */}
         <div style={{ 
           borderTop: '1px solid rgba(255,255,255,0.1)', 
-          paddingTop: '30px', 
-          paddingBottom: '30px',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          flexWrap: 'wrap',
-          gap: '20px'
+          paddingTop: '25px', 
+          paddingBottom: '25px',
+          marginTop: '40px'
         }}>
-          <p style={{ fontSize: '0.9rem', opacity: 0.7, margin: 0 }}>
-            © 2026 Namaste China. All rights reserved.
-          </p>
-          <p style={{ fontSize: '0.85rem', opacity: 0.6, margin: 0, fontStyle: 'italic' }}>
-            #IndiaGatewayToChinaBusiness
+          <div style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            flexWrap: 'wrap',
+            gap: '20px',
+            marginBottom: '15px'
+          }}>
+            <p style={{ fontSize: '0.9rem', opacity: 0.7, margin: 0 }}>
+              © 2026 Namaste China. All rights reserved.
+            </p>
+            <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap', fontSize: '0.85rem', opacity: 0.7 }}>
+              <span 
+                onClick={() => alert('Privacy Policy: Namaste China ensures complete data privacy for our B2B partners. We do not share client information with third parties. Detailed policy coming soon.')}
+                style={{ cursor: 'pointer', transition: 'opacity 0.3s' }}
+                onMouseEnter={(e) => e.currentTarget.style.opacity = '1'}
+                onMouseLeave={(e) => e.currentTarget.style.opacity = '0.7'}
+              >
+                Privacy Policy
+              </span>
+              <span style={{ opacity: 0.4 }}>|</span>
+              <span 
+                onClick={() => alert('Terms & Conditions: All sourcing agreements are governed by mutual trade MoUs. Detailed terms document in preparation.')}
+                style={{ cursor: 'pointer', transition: 'opacity 0.3s' }}
+                onMouseEnter={(e) => e.currentTarget.style.opacity = '1'}
+                onMouseLeave={(e) => e.currentTarget.style.opacity = '0.7'}
+              >
+                Terms & Conditions
+              </span>
+              <span style={{ opacity: 0.4 }}>|</span>
+              <span 
+                onClick={() => alert('Refund Policy: Deposits are refundable under specific conditions outlined in service agreements. Contact us for details.')}
+                style={{ cursor: 'pointer', transition: 'opacity 0.3s' }}
+                onMouseEnter={(e) => e.currentTarget.style.opacity = '1'}
+                onMouseLeave={(e) => e.currentTarget.style.opacity = '0.7'}
+              >
+                Refund Policy
+              </span>
+            </div>
+          </div>
+          <p style={{ fontSize: '0.8rem', opacity: 0.5, margin: 0, textAlign: 'center', fontStyle: 'italic' }}>
+            🇮🇳 Bridging Indian Businesses with Chinese Manufacturers 🇨🇳
           </p>
         </div>
-      </div>
-    </footer>
+        </div>
+      </footer>
+    </>
   );
 }

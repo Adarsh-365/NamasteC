@@ -157,27 +157,40 @@ export default function Contact() {
             </p>
 
             <div style={{ marginTop: '40px', borderTop: '1px solid #e5dfd0', paddingTop: '30px' }}>
-              <h3>Global Presence:</h3>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', marginTop: '20px' }}>
-                <div>
-                  <strong>Mumbai (India Head Office)</strong>
-                  <p style={{ fontSize: '0.85rem', color: '#666', marginTop: '5px', lineHeight: '1.4' }}>
-                    Namaste India Group, Sourcing & Warehouse Hub, Mumbai, India<br />
-                    <em>Contact for physical sample reviews.</em>
+              <h3>Our Global Offices:</h3>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '25px', marginTop: '20px' }}>
+                
+                {/* Mumbai Office */}
+                <div style={{ padding: '20px', background: '#fdfcf7', borderRadius: '10px', border: '2px solid var(--accent-green)' }}>
+                  <strong style={{ color: 'var(--primary-green)', fontSize: '1.1rem', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    <i className="fa-solid fa-building"></i> Mumbai Office (India HQ)
+                  </strong>
+                  <p style={{ fontSize: '0.9rem', color: '#666', marginTop: '10px', lineHeight: '1.6' }}>
+                    Office No. 123, First Floor,<br />
+                    Mahaveer Market, Plot No. 1,<br />
+                    Sector 18, Vashi,<br />
+                    Navi Mumbai - 400703,<br />
+                    Maharashtra, India
+                  </p>
+                  <p style={{ fontSize: '0.85rem', marginTop: '10px', color: '#555' }}>
+                    <em>📦 Contact for sample reviews, documentation, and India operations.</em>
                   </p>
                 </div>
-                <div>
-                  <strong>Guangzhou Liaison Office (Guangdong, China)</strong>
-                  <p style={{ fontSize: '0.85rem', color: '#666', marginTop: '5px', lineHeight: '1.4' }}>
-                    Liwan District, Guangzhou City, Guangdong Province, China<br />
-                    <em>Contact for AIC checks, factory floor verification & translation.</em>
+
+                {/* China Office */}
+                <div style={{ padding: '20px', background: '#fdfcf7', borderRadius: '10px', border: '2px solid #d4af37' }}>
+                  <strong style={{ color: '#d4af37', fontSize: '1.1rem', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    <i className="fa-solid fa-building"></i> China Office (Foshan)
+                  </strong>
+                  <p style={{ fontSize: '0.9rem', color: '#666', marginTop: '10px', lineHeight: '1.6' }}>
+                    Xianghai International Financial Center<br />
+                    (Poly Sky-North Tower),<br />
+                    No. 7 Jin Yuan Road, Guicheng Subdistrict,<br />
+                    Nanhai District, Foshan City,<br />
+                    Guangdong Province, China
                   </p>
-                </div>
-                <div>
-                  <strong>Foshan Sourcing Office (Guangdong, China)</strong>
-                  <p style={{ fontSize: '0.85rem', color: '#666', marginTop: '5px', lineHeight: '1.4' }}>
-                    Shunde District, Foshan City, Guangdong Province, China<br />
-                    <em>Contact for furniture and building materials cluster routing.</em>
+                  <p style={{ fontSize: '0.85rem', marginTop: '10px', color: '#555' }}>
+                    <em>🏭 Contact for factory audits, supplier verification, and on-ground coordination.</em>
                   </p>
                 </div>
               </div>
