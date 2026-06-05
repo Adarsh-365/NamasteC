@@ -1,41 +1,37 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import { submitToGoogleSheets, FORM_TYPES } from '../utils/googleSheets';
+import SuccessModal from './SuccessModal';
 
-export default function TradeConsulting({ setCurrentPage }) {
+export default function TradeConsulting() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [consultationTopic, setConsultationTopic] = useState('Pre-Transaction Risk');
   const [details, setDetails] = useState('');
   const [submitting, setSubmitting] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmitting(true);
     try {
-      const response = await fetch('http://localhost:5000/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name,
-          email,
-          phone,
-          service: 'Trade Consulting',
-          requirement: `Topic: ${consultationTopic}, Details: ${details}`
-        })
+      // Submit to Google Sheets
+      await submitToGoogleSheets(FORM_TYPES.TRADE_CONSULTING, {
+        name,
+        email,
+        phone,
+        consultationTopic,
+        details
       });
-      const data = await response.json();
-      if (response.ok) {
-        alert(data.message || 'Consultation request submitted successfully!');
-        setName('');
-        setEmail('');
-        setPhone('');
-        setDetails('');
-      } else {
-        alert(data.error || 'Submission failed');
-      }
+      
+      setShowSuccess(true);
+      setName('');
+      setEmail('');
+      setPhone('');
+      setDetails('');
     } catch (err) {
       console.error(err);
-      alert('Failed to connect to the Consultation API.');
+      alert('Failed to submit. Please try again or contact us via WhatsApp.');
     } finally {
       setSubmitting(false);
     }
@@ -48,6 +44,12 @@ export default function TradeConsulting({ setCurrentPage }) {
 
   return (
     <>
+      <SuccessModal 
+        isOpen={showSuccess}
+        onClose={() => setShowSuccess(false)}
+        title="Consultation Request Received!"
+        message="Our senior trade advisors will review your requirements and schedule a callback within 24 hours."
+      />
       <header className="page-header" style={{
         background: `linear-gradient(rgba(10, 61, 49, 0.9), rgba(10, 61, 49, 0.9)), url('https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1600&q=80')`,
         backgroundSize: 'cover',

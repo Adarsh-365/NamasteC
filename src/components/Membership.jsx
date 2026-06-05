@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import { submitToGoogleSheets, FORM_TYPES } from '../utils/googleSheets';
+import SuccessModal from './SuccessModal';
 
 export default function Membership() {
   const [modalOpen, setModalOpen] = useState(false);
@@ -8,6 +10,7 @@ export default function Membership() {
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [submitting, setSubmitting] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
 
   const openInquiryModal = (planName, durationName) => {
     setSelectedPlan(planName);
@@ -19,30 +22,23 @@ export default function Membership() {
     e.preventDefault();
     setSubmitting(true);
     try {
-      const response = await fetch('http://localhost:5000/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name,
-          email,
-          phone,
-          service: `Membership Enrollment: ${selectedPlan}`,
-          requirement: `Duration: ${selectedDuration}`
-        })
+      // Submit to Google Sheets
+      await submitToGoogleSheets(FORM_TYPES.MEMBERSHIP, {
+        name,
+        email,
+        phone,
+        selectedPlan,
+        selectedDuration
       });
-      const data = await response.json();
-      if (response.ok) {
-        alert(data.message || 'Membership enrollment inquiry submitted successfully! Our onboarding team will contact you.');
-        setName('');
-        setEmail('');
-        setPhone('');
-        setModalOpen(false);
-      } else {
-        alert(data.error || 'Submission failed');
-      }
+      
+      setShowSuccess(true);
+      setName('');
+      setEmail('');
+      setPhone('');
+      setModalOpen(false);
     } catch (err) {
       console.error(err);
-      alert('Failed to connect to the Consultation API.');
+      alert('Failed to submit. Please try again or contact us via WhatsApp.');
     } finally {
       setSubmitting(false);
     }
@@ -55,6 +51,12 @@ export default function Membership() {
 
   return (
     <>
+      <SuccessModal 
+        isOpen={showSuccess}
+        onClose={() => setShowSuccess(false)}
+        title="Membership Enrollment Received!"
+        message="Our onboarding team will send you the membership agreement, invoice, and benefits documentation within 24 hours."
+      />
       {/* HERO */}
       <header className="page-header" style={{
         background: `linear-gradient(rgba(10, 61, 49, 0.94), rgba(10, 61, 49, 0.94)), url('https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1600&q=80')`,
@@ -84,14 +86,17 @@ export default function Membership() {
                 Designed for retail traders, startups, and small business owners importing up to 3 containers annually.
               </p>
               
-              <div style={{ borderTop: '1px solid #eee', borderBottom: '1px solid #eee', padding: '15px 0', margin: '20px 0' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
-                  <span>1 Year Subscription:</span>
-                  <strong>₹15,000 + GST</strong>
-                </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                  <span>3 Year Subscription:</span>
-                  <strong>₹60,000 + GST</strong>
+              <div style={{ borderTop: '1px solid #eee', borderBottom: '1px solid #eee', padding: '20px', margin: '20px 0', background: '#fff9e6', borderRadius: '8px' }}>
+                <div style={{ textAlign: 'center' }}>
+                  <p style={{ fontSize: '1.1rem', fontWeight: 'bold', color: 'var(--primary-green)', margin: '0 0 10px 0' }}>
+                    🎉 Early Bird Special
+                  </p>
+                  <p style={{ fontSize: '1.3rem', fontWeight: 'bold', color: '#d97706', margin: '0' }}>
+                    Get 10% OFF
+                  </p>
+                  <p style={{ fontSize: '0.85rem', color: '#666', marginTop: '8px' }}>
+                    Contact us for exclusive pricing
+                  </p>
                 </div>
               </div>
 
@@ -147,14 +152,17 @@ export default function Membership() {
                 Designed for manufacturers, industrial distributors, and wholesale traders importing 5+ containers annually.
               </p>
               
-              <div style={{ borderTop: '1px solid #eee', borderBottom: '1px solid #eee', padding: '15px 0', margin: '20px 0' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
-                  <span>1 Year Subscription:</span>
-                  <strong>₹30,000 + GST</strong>
-                </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                  <span>3 Year Subscription:</span>
-                  <strong>₹1,00,000 + GST</strong>
+              <div style={{ borderTop: '1px solid #eee', borderBottom: '1px solid #eee', padding: '20px', margin: '20px 0', background: '#fff9e6', borderRadius: '8px' }}>
+                <div style={{ textAlign: 'center' }}>
+                  <p style={{ fontSize: '1.1rem', fontWeight: 'bold', color: 'var(--primary-green)', margin: '0 0 10px 0' }}>
+                    🎉 Early Bird Special
+                  </p>
+                  <p style={{ fontSize: '1.3rem', fontWeight: 'bold', color: '#d97706', margin: '0' }}>
+                    Get 10% OFF
+                  </p>
+                  <p style={{ fontSize: '0.85rem', color: '#666', marginTop: '8px' }}>
+                    Contact us for exclusive pricing
+                  </p>
                 </div>
               </div>
 

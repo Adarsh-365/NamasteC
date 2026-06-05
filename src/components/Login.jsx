@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-export default function Login({ setCurrentPage, setUsername, setRole }) {
+export default function Login({ setUsername, setRole }) {
+  const navigate = useNavigate();
   const [user, setUser] = useState('');
   const [pass, setPass] = useState('');
 
@@ -19,9 +21,9 @@ export default function Login({ setCurrentPage, setUsername, setRole }) {
           setUsername(data.user.username);
           setRole(data.user.role);
           if (data.user.role === 'merchant') {
-            setCurrentPage('merchant');
+            navigate('/merchant');
           } else {
-            setCurrentPage('home');
+            navigate('/');
           }
         } else {
           alert(data.error || 'Invalid credentials');
@@ -68,7 +70,7 @@ export default function Login({ setCurrentPage, setUsername, setRole }) {
           <p style={{ marginTop: '20px', textAlign: 'center', fontSize: '0.9rem', color: '#666' }}>
             Don't have an account?{' '}
             <span 
-              onClick={() => setCurrentPage('signup')} 
+              onClick={() => navigate('/signup')} 
               style={{ color: 'var(--primary-green)', cursor: 'pointer', fontWeight: 'bold' }}
             >
               Sign Up

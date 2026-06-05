@@ -1,8 +1,10 @@
-import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
-export default function About({ setCurrentPage }) {
+export default function About() {
+  const navigate = useNavigate();
+
   const handleContactClick = () => {
-    setCurrentPage('contact');
+    navigate('/contact');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -40,25 +42,16 @@ export default function About({ setCurrentPage }) {
                 </p>
               </div>
 
-              {/* Corporate Credentials Box */}
-              <div style={{
-                background: '#fcfbf7',
-                border: '1px solid #e5dfd0',
-                borderRadius: '8px',
-                padding: '20px',
-                marginBottom: '30px'
-              }}>
-                <h4 style={{ color: 'var(--primary-green)', marginBottom: '10px' }}><i className="fa-solid fa-file-contract"></i> Official Business Registry</h4>
-                <ul style={{ listStyle: 'none', padding: 0, fontSize: '0.85rem', color: '#666', lineHeight: '1.8' }}>
-                  <li><strong>Active Incorporation:</strong> Namaste India Trade Group (Reg. 2021)</li>
-                  <li><strong>IE Code (IEC):</strong> 0321XXXXXX (Registered Import-Export Entity)</li>
-                  <li><strong>Guangzhou Liaison Partner:</strong> Canton Trade Linkages Co., Ltd. (Guangzhou Registry)</li>
-                  <li><strong>Legal Structure:</strong> Sourcing agreements drafted under mutual trade MoUs.</li>
-                </ul>
-              </div>
-
               <div style={{ display: 'flex', gap: '15px', flexWrap: 'wrap' }}>
-                <button className="btn-primary" onClick={handleContactClick}>Connect with an Advisor</button>
+                <a 
+                  href="https://calendly.com/india-namaste1998/30min" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="btn-primary" 
+                  style={{ textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '8px' }}
+                >
+                  <i className="fa-solid fa-calendar-days"></i> Schedule Meeting
+                </a>
                 <button className="btn-large btn-outline" onClick={handleWhatsApp} style={{ display: 'flex', alignItems: 'center', gap: '8px', borderRadius: '6px', padding: '10px 20px' }}>
                   <i className="fa-brands fa-whatsapp" style={{ color: '#25D366', fontSize: '1.2rem' }}></i> Consult Sourcing Desk
                 </button>
@@ -126,24 +119,6 @@ export default function About({ setCurrentPage }) {
               <h3>3. Escrow Payment Guarantee</h3>
               <p>Importers transfer 50% advance for booking. The remaining 50% balance is paid only after the container has cleared customs and arrived in Mumbai.</p>
             </div>
-          </div>
-
-          {/* Testimonial Quote */}
-          <div style={{
-            background: 'white',
-            borderRadius: '12px',
-            border: '1px solid #e5dfd0',
-            padding: '30px',
-            marginTop: '40px',
-            boxShadow: '0 4px 15px rgba(0,0,0,0.02)'
-          }}>
-            <h4 style={{ color: 'var(--primary-green)', marginBottom: '15px' }}><i className="fa-solid fa-quote-left" style={{ fontSize: '1.5rem', color: 'var(--accent-green)' }}></i> Verified Importer Testimonial:</h4>
-            <p style={{ fontStyle: 'italic', color: '#555', lineHeight: '1.6', fontSize: '0.95rem' }}>
-              "Before working with Namaste China, we had major issues with factory middlemen in Foshan sending furniture samples that didn't match our bulk order. Having their team physically check the machinery in Guangzhou and verify licenses saved us over ₹12 Lakhs on our last shipment."
-            </p>
-            <strong style={{ display: 'block', marginTop: '15px', fontSize: '0.85rem', color: 'var(--text-dark)' }}>
-              — Rajesh Singhania, Singhania Decor (Mumbai, India)
-            </strong>
           </div>
         </div>
       </section>

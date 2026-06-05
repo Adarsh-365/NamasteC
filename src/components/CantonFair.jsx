@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import { submitToGoogleSheets, FORM_TYPES } from '../utils/googleSheets';
+import SuccessModal from './SuccessModal';
 
 export default function CantonFair() {
   const [selectedPhase, setSelectedPhase] = useState('phase2');
@@ -7,35 +9,29 @@ export default function CantonFair() {
   const [phone, setPhone] = useState('');
   const [requirements, setRequirements] = useState('');
   const [submitting, setSubmitting] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmitting(true);
     try {
-      const response = await fetch('http://localhost:5000/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name,
-          email,
-          phone,
-          service: 'Canton Fair 2026 Delegation',
-          requirement: `Selected Phase: ${selectedPhase === 'phase2' ? 'Phase 2 (April 23-29)' : 'Phase 3 (Apr 30-May 7)'}, Sourcing Goals: ${requirements}`
-        })
+      // Submit to Google Sheets
+      await submitToGoogleSheets(FORM_TYPES.CANTON_FAIR, {
+        name,
+        email,
+        phone,
+        selectedPhase: selectedPhase === 'phase2' ? 'Phase 2 (April 23-29)' : selectedPhase === 'phase3' ? 'Phase 3 (Apr 30-May 7)' : 'Both Phases',
+        requirements
       });
-      const data = await response.json();
-      if (response.ok) {
-        alert(data.message || 'Canton Fair delegation seat query submitted successfully!');
-        setName('');
-        setEmail('');
-        setPhone('');
-        setRequirements('');
-      } else {
-        alert(data.error || 'Submission failed');
-      }
+      
+      setShowSuccess(true);
+      setName('');
+      setEmail('');
+      setPhone('');
+      setRequirements('');
     } catch (err) {
       console.error(err);
-      alert('Failed to connect to the Consultation API.');
+      alert('Failed to submit. Please try again or contact us via WhatsApp.');
     } finally {
       setSubmitting(false);
     }
@@ -48,6 +44,12 @@ export default function CantonFair() {
 
   return (
     <>
+      <SuccessModal 
+        isOpen={showSuccess}
+        onClose={() => setShowSuccess(false)}
+        title="Canton Fair Request Received!"
+        message="Our booking desk will send you the complete package details, pricing, and visa requirements within 24 hours."
+      />
       {/* HERO */}
       <header className="page-header" style={{
         background: `linear-gradient(rgba(10, 61, 49, 0.93), rgba(10, 61, 49, 0.93)), url('https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1600&q=80')`,
@@ -73,7 +75,7 @@ export default function CantonFair() {
             <i className="fa-solid fa-passport" style={{ color: 'var(--accent-green)' }}></i> 100% Visa Success Rate
           </span>
           <span style={{ background: 'rgba(255,255,255,0.1)', padding: '5px 15px', borderRadius: '4px', fontSize: '0.85rem' }}>
-            <i className="fa-solid fa-hotel" style={{ color: 'var(--accent-green)' }}></i> 5-Star Hotel Stay
+            <i className="fa-solid fa-hotel" style={{ color: 'var(--accent-green)' }}></i> 4-Star Hotel Stay
           </span>
         </div>
       </header>
@@ -133,9 +135,18 @@ export default function CantonFair() {
                   <li>Building, Sanitary & Decorative Materials</li>
                   <li>Furniture & Gardening Products</li>
                 </ul>
-                <div style={{ borderTop: '1px solid #eee', paddingTop: '15px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <span>Single Phase Cost:</span>
-                  <strong style={{ fontSize: '1.4rem', color: 'var(--primary-green)' }}>₹1,85,000 + GST</strong>
+                <div style={{ borderTop: '1px solid #eee', borderBottom: '1px solid #eee', padding: '20px', margin: '20px 0', background: '#fff9e6', borderRadius: '8px' }}>
+                  <div style={{ textAlign: 'center' }}>
+                    <p style={{ fontSize: '1.1rem', fontWeight: 'bold', color: 'var(--primary-green)', margin: '0 0 10px 0' }}>
+                      🎉 Early Bird Special
+                    </p>
+                    <p style={{ fontSize: '1.3rem', fontWeight: 'bold', color: '#d97706', margin: '0' }}>
+                      Get 10% OFF
+                    </p>
+                    <p style={{ fontSize: '0.85rem', color: '#666', marginTop: '8px' }}>
+                      Contact us for exclusive pricing
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -163,9 +174,18 @@ export default function CantonFair() {
                   <li>Medicines, Devices & Health Products</li>
                   <li>Office Supplies, Toys & Stationery</li>
                 </ul>
-                <div style={{ borderTop: '1px solid #eee', paddingTop: '15px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <span>Single Phase Cost:</span>
-                  <strong style={{ fontSize: '1.4rem', color: 'var(--primary-green)' }}>₹1,75,000 + GST</strong>
+                <div style={{ borderTop: '1px solid #eee', borderBottom: '1px solid #eee', padding: '20px', margin: '20px 0', background: '#fff9e6', borderRadius: '8px' }}>
+                  <div style={{ textAlign: 'center' }}>
+                    <p style={{ fontSize: '1.1rem', fontWeight: 'bold', color: 'var(--primary-green)', margin: '0 0 10px 0' }}>
+                      🎉 Early Bird Special
+                    </p>
+                    <p style={{ fontSize: '1.3rem', fontWeight: 'bold', color: '#d97706', margin: '0' }}>
+                      Get 10% OFF
+                    </p>
+                    <p style={{ fontSize: '0.85rem', color: '#666', marginTop: '8px' }}>
+                      Contact us for exclusive pricing
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -174,7 +194,7 @@ export default function CantonFair() {
           <div style={{ textAlign: 'center', background: '#fdfcf7', border: '1px solid #e5dfd0', borderRadius: '8px', padding: '25px', maxWidth: '800px', margin: '0 auto' }}>
             <h4 style={{ color: 'var(--primary-green)' }}><i className="fa-solid fa-percent"></i> Double Phase Sourcing Discount</h4>
             <p style={{ fontSize: '0.85rem', color: '#666', marginTop: '5px' }}>
-              Want to attend both Phase 2 and Phase 3? Register for our complete double-phase delegation for <strong>₹3,10,000 + GST</strong> (includes visa extension and hotel allowance for transfer days).
+              Want to attend both Phase 2 and Phase 3? Register for our complete double-phase delegation with special pricing (includes visa extension and hotel allowance for transfer days). <strong>Contact us for exclusive rates.</strong>
             </p>
           </div>
         </div>
@@ -200,8 +220,8 @@ export default function CantonFair() {
           <div className="itinerary-container" style={{ position: 'relative', maxWidth: '900px', margin: '0 auto' }}>
             {[
               { day: 'Day 01', title: 'Depart Mumbai / Delhi', desc: 'Board international flight to Guangzhou, China. Meet the delegation group at transit.' },
-              { day: 'Day 02', title: 'Arrive in Guangzhou', desc: 'Transfer in premium AC coaches to our 5-star hotel (Sheraton/Westin). Welcome Indian dinner and registration badge briefing.' },
-              { day: 'Day 03 - 07', title: 'Canton Fair Sourcing Days', desc: 'Daily breakfast buffet. Transfer to the Pazhou Complex. Explore thousands of verified suppliers. Evening networking dinners with logistics advisors.' },
+              { day: 'Day 02', title: 'Arrive in Guangzhou', desc: 'Transfer in premium AC coaches to our 4-star hotel. Welcome Indian dinner and registration badge briefing.' },
+              { day: 'Day 03 - 07', title: 'Canton Fair Sourcing Days', desc: 'Daily breakfast buffet. Transfer to the exhibition complex. Explore thousands of verified suppliers. Evening networking dinners with logistics advisors.' },
               { day: 'Day 08', title: 'Departure & Flight to India', desc: 'Breakfast. Check out. Transfer to Guangzhou International Airport. Flight back to Mumbai.' }
             ].map((step) => (
               <div className="timeline-item" key={step.day} style={{ display: 'flex', gap: '20px', marginBottom: '30px' }}>
@@ -229,9 +249,9 @@ export default function CantonFair() {
                 {[
                   'Return Flight (Premium Airlines - Singapore/Cathay)',
                   'Normal Business Visa processing support (includes official invitations)',
-                  '5-Star Luxury Hotel stay (Sheraton / Westin Guangzhou)',
+                  '4-Star Luxury Hotel stay in Guangzhou',
                   'Daily breakfast buffet & Indian catering dinners',
-                  'Pazhou complex daily coach shuttles',
+                  'Exhibition complex daily coach shuttles',
                   'Basic Canton Fair Entry Registration Badge',
                   'English-Chinese trade interpreter allocation',
                   'Travel Insurance (Up to 55 years)'
@@ -249,7 +269,7 @@ export default function CantonFair() {
               <h3 style={{ color: 'var(--china-red)', marginBottom: '20px' }}>Package Exclusions</h3>
               <ul className="cross-list" style={{ listStyle: 'none' }}>
                 {[
-                  'Daily Lunch at Pazhou complex (available inside the venue)',
+                  'Daily Lunch at exhibition complex (available inside the venue)',
                   'GST @ 5% & TCS @ 5% on package cost (compulsory Government tax)',
                   'Customary tour guide gratuity - USD 25 per head',
                   'Personal minibar, laundry, or premium excess baggage fees',
@@ -290,7 +310,7 @@ export default function CantonFair() {
           <form onSubmit={handleSubmit} className="form" style={{ margin: 0, width: '100%', maxWidth: 'none' }}>
             <h2 style={{ textAlign: 'center', color: 'var(--primary-green)' }}>Reserve Delegation Seat</h2>
             <p style={{ textAlign: 'center', fontSize: '0.9rem', color: '#666', marginBottom: '20px' }}>
-              Reserve your seat. Registration requires ₹50,000 deposit.
+              Reserve your seat now. Contact us for pricing and deposit details.
             </p>
 
             <label>Full Name *</label>

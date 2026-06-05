@@ -1,6 +1,9 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
-export default function NotFound({ setCurrentPage }) {
+export default function NotFound() {
+  const navigate = useNavigate();
+
   return (
     <>
       <header className="page-header" style={{ background: 'var(--china-red)', color: 'white', textAlign: 'center', padding: '80px 20px' }}>
@@ -15,10 +18,10 @@ export default function NotFound({ setCurrentPage }) {
             We've redesigned our platform to position it as India's Gateway to China Business. Let us help you find what you need.
           </p>
           <div className="cta-buttons" style={{ display: 'flex', justifyContent: 'center', gap: '20px', flexWrap: 'wrap' }}>
-            <button className="btn-large btn-fill" onClick={() => setCurrentPage('home')}>
+            <button className="btn-large btn-fill" onClick={() => navigate('/')}>
               Go to Home Page
             </button>
-            <button className="btn-large btn-outline" onClick={() => setCurrentPage('contact')}>
+            <button className="btn-large btn-outline" onClick={() => navigate('/contact')}>
               Contact B2B Consultation Hub
             </button>
           </div>

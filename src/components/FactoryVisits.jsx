@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import { submitToGoogleSheets, FORM_TYPES } from '../utils/googleSheets';
+import SuccessModal from './SuccessModal';
 
-export default function FactoryVisits({ setCurrentPage }) {
+export default function FactoryVisits() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
@@ -8,36 +10,31 @@ export default function FactoryVisits({ setCurrentPage }) {
   const [productFocus, setProductFocus] = useState('');
   const [travelDates, setTravelDates] = useState('');
   const [submitting, setSubmitting] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmitting(true);
     try {
-      const response = await fetch('http://localhost:5000/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name,
-          email,
-          phone,
-          service: 'Factory Visits',
-          requirement: `Target Cities: ${targetCities}, Product Focus: ${productFocus}, Travel Est: ${travelDates}`
-        })
+      // Submit to Google Sheets
+      await submitToGoogleSheets(FORM_TYPES.FACTORY_VISIT, {
+        name,
+        email,
+        phone,
+        targetCities,
+        productFocus,
+        travelDates
       });
-      const data = await response.json();
-      if (response.ok) {
-        alert(data.message || 'Tour inquiry submitted successfully!');
-        setName('');
-        setEmail('');
-        setPhone('');
-        setProductFocus('');
-        setTravelDates('');
-      } else {
-        alert(data.error || 'Submission failed');
-      }
+      
+      setShowSuccess(true);
+      setName('');
+      setEmail('');
+      setPhone('');
+      setProductFocus('');
+      setTravelDates('');
     } catch (err) {
       console.error(err);
-      alert('Failed to connect to the Consultation API.');
+      alert('Failed to submit. Please try again or contact us via WhatsApp.');
     } finally {
       setSubmitting(false);
     }
@@ -50,6 +47,12 @@ export default function FactoryVisits({ setCurrentPage }) {
 
   return (
     <>
+      <SuccessModal 
+        isOpen={showSuccess}
+        onClose={() => setShowSuccess(false)}
+        title="Factory Visit Request Received!"
+        message="Our coordination team will prepare a customized itinerary and contact you within 24-48 hours."
+      />
       <header className="page-header" style={{
         background: `linear-gradient(rgba(10, 61, 49, 0.9), rgba(10, 61, 49, 0.9)), url('https://images.unsplash.com/photo-1542744094-3a31f103e35f?auto=format&fit=crop&w=1600&q=80')`,
         backgroundSize: 'cover',

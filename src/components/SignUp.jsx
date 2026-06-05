@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-export default function SignUp({ setCurrentPage, setUsername, setRole }) {
+export default function SignUp({ setUsername, setRole }) {
+  const navigate = useNavigate();
   const [user, setUser] = useState('');
   const [pass, setPass] = useState('');
   const [selectedRole, setSelectedRole] = useState('client');
@@ -20,9 +22,9 @@ export default function SignUp({ setCurrentPage, setUsername, setRole }) {
           setUsername(data.user.username);
           setRole(data.user.role);
           if (data.user.role === 'merchant') {
-            setCurrentPage('merchant');
+            navigate('/merchant');
           } else {
-            setCurrentPage('home');
+            navigate('/');
           }
         } else {
           alert(data.error || 'Failed to sign up');
@@ -75,7 +77,7 @@ export default function SignUp({ setCurrentPage, setUsername, setRole }) {
           <p style={{ marginTop: '20px', textAlign: 'center', fontSize: '0.9rem', color: '#666' }}>
             Already have an account?{' '}
             <span 
-              onClick={() => setCurrentPage('login')} 
+              onClick={() => navigate('/login')} 
               style={{ color: 'var(--primary-green)', cursor: 'pointer', fontWeight: 'bold' }}
             >
               Log In

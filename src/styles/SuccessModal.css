@@ -1,0 +1,197 @@
+/* Success Modal Overlay */
+.success-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(10, 61, 49, 0.85);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  padding: 20px;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Success Modal Content */
+.success-modal-content {
+  background: white;
+  border-radius: 20px;
+  padding: 50px 40px 40px;
+  max-width: 480px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  animation: slideUp 0.4s ease;
+  position: relative;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Success Icon Container */
+.success-modal-icon {
+  margin: 0 auto 30px;
+  width: 100px;
+  height: 100px;
+}
+
+/* Checkmark SVG Animation */
+.success-checkmark-svg {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  display: block;
+  stroke-width: 3;
+  stroke: #fff;
+  stroke-miterlimit: 10;
+  box-shadow: inset 0px 0px 0px #10b981;
+  animation: fillGreen 0.4s ease-in-out 0.4s forwards, scaleCheckmark 0.3s ease-in-out 0.9s both;
+}
+
+@keyframes fillGreen {
+  100% {
+    box-shadow: inset 0px 0px 0px 60px #10b981;
+  }
+}
+
+@keyframes scaleCheckmark {
+  0%, 100% {
+    transform: none;
+  }
+  50% {
+    transform: scale3d(1.1, 1.1, 1);
+  }
+}
+
+/* Circle Animation */
+.success-checkmark-circle {
+  stroke-dasharray: 166;
+  stroke-dashoffset: 166;
+  stroke-width: 3;
+  stroke-miterlimit: 10;
+  stroke: #10b981;
+  fill: none;
+  animation: strokeCircle 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+}
+
+@keyframes strokeCircle {
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Check Animation */
+.success-checkmark-check {
+  transform-origin: 50% 50%;
+  stroke-dasharray: 48;
+  stroke-dashoffset: 48;
+  stroke: #fff;
+  stroke-width: 3;
+  animation: strokeCheck 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+}
+
+@keyframes strokeCheck {
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Modal Title */
+.success-modal-title {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--primary-green);
+  margin: 0 0 15px 0;
+  animation: fadeInText 0.5s ease 0.6s both;
+}
+
+@keyframes fadeInText {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Modal Message */
+.success-modal-message {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #666;
+  margin: 0 0 30px 0;
+  animation: fadeInText 0.5s ease 0.8s both;
+}
+
+/* Success Button */
+.success-modal-button {
+  background: linear-gradient(135deg, var(--primary-green) 0%, #0a5a47 100%);
+  color: white;
+  border: none;
+  padding: 14px 40px;
+  font-size: 1rem;
+  font-weight: 700;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(10, 61, 49, 0.3);
+  animation: fadeInText 0.5s ease 1s both;
+}
+
+.success-modal-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(10, 61, 49, 0.4);
+  background: linear-gradient(135deg, #0a5a47 0%, var(--primary-green) 100%);
+}
+
+.success-modal-button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 10px rgba(10, 61, 49, 0.3);
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  .success-modal-content {
+    padding: 40px 30px 30px;
+  }
+
+  .success-modal-title {
+    font-size: 1.5rem;
+  }
+
+  .success-modal-message {
+    font-size: 0.95rem;
+  }
+
+  .success-modal-icon {
+    width: 80px;
+    height: 80px;
+  }
+
+  .success-checkmark-svg {
+    width: 80px;
+    height: 80px;
+  }
+}

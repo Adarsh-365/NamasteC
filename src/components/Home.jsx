@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-export default function Home({ setCurrentPage }) {
+export default function Home() {
+  const navigate = useNavigate();
   // State for search input
   const [searchVal, setSearchVal] = useState('');
   
@@ -105,7 +107,7 @@ export default function Home({ setCurrentPage }) {
           <button 
             className="btn-large btn-fill" 
             style={{ background: 'var(--accent-gold)', color: 'var(--primary-green)', fontWeight: 'bold' }}
-            onClick={() => setCurrentPage('cantonfair')}
+            onClick={() => navigate('/canton-fair')}
           >
             <i className="fa-solid fa-plane-departure" style={{ marginRight: '8px' }}></i> Canton Fair 2026 Delegation
           </button>
@@ -113,9 +115,9 @@ export default function Home({ setCurrentPage }) {
           <button 
             className="btn-large btn-outline" 
             style={{ background: 'transparent', color: 'white', border: '2px solid white' }}
-            onClick={() => setCurrentPage('sourcing')}
+            onClick={() => navigate('/sourcing')}
           >
-            <i className="fa-solid fa-magnifying-glass" style={{ marginRight: '8px' }}></i> Start Sourcing Request
+             Start Sourcing Request
           </button>
         </div>
 
@@ -181,7 +183,7 @@ export default function Home({ setCurrentPage }) {
             className={`toggle-btn ${toggleActive === 'sell' ? 'active' : ''}`}
             onClick={() => {
               setToggleActive('sell');
-              setCurrentPage('signup');
+              navigate('/signup');
             }}
           >
             <i className="fa-solid fa-truck-fast"></i> Sell On Namaste China
@@ -203,7 +205,7 @@ export default function Home({ setCurrentPage }) {
               title: 'Canton Fair 2026 Delegation',
               desc: 'Join India\'s leading trade travel package. Includes invitation letters, visa processing, 5-star hotels, transfers, and English-Chinese trade interpreters.',
               cta: 'Register for Delegation',
-              page: 'cantonfair'
+              page: 'canton-fair'
             },
             {
               icon: 'fa-box-open',
@@ -224,21 +226,21 @@ export default function Home({ setCurrentPage }) {
               title: 'Factory Visits & Tours',
               desc: 'Coordinate travel directly to manufacturing zones in Foshan, Shenzhen, and Yiwu. We arrange drivers and expert trade guides.',
               cta: 'Plan Factory Visit',
-              page: 'factoryvisits'
+              page: 'factory-visits'
             },
             {
               icon: 'fa-truck-ramp-box',
               title: 'Import Assistance & Logistics',
               desc: 'Calculate tariffs, check compliance (BIS/EPR), and book sea container freight (FCL/LCL) or air cargo with full tracking.',
               cta: 'Get Shipping Rates',
-              page: 'importassistance'
+              page: 'import-assistance'
             },
             {
               icon: 'fa-scale-balanced',
               title: 'China Trade Consulting',
               desc: 'Analyze transaction risks, calculate complete landed costs, draft legally protective bilingual MoUs, and resolve disputes.',
               cta: 'Schedule Consultation',
-              page: 'tradeconsulting'
+              page: 'trade-consulting'
             }
           ].map((item, index) => (
             <div className="service-hub-card" key={index}>
@@ -253,7 +255,7 @@ export default function Home({ setCurrentPage }) {
                 className="btn-primary" 
                 style={{ width: 'fit-content', marginTop: '10px' }}
                 onClick={() => {
-                  setCurrentPage(item.page);
+                  navigate(`/${item.page}`);
                   window.scrollTo({ top: 0, behavior: 'smooth' });
                 }}
               >
@@ -310,7 +312,7 @@ export default function Home({ setCurrentPage }) {
                 <button 
                   className="btn-primary" 
                   style={{ background: 'white', color: 'var(--primary-green)' }}
-                  onClick={() => setCurrentPage('about')}
+                  onClick={() => navigate('/about')}
                 >
                   Learn About Our Footprint
                 </button>
@@ -368,7 +370,7 @@ export default function Home({ setCurrentPage }) {
       </section>
 
       {/* 6. INSTANT FREIGHT CALCULATOR */}
-      <section className="section" style={{ background: '#fdfcf7', padding: '60px 5%' }}>
+      {/* <section className="section" style={{ background: '#fdfcf7', padding: '60px 5%' }}>
         <h2 className="section-title">Instant Sea/Air Freight Quotes</h2>
         <div className="freight-container">
           <form className="freight-inputs" onSubmit={handleGetQuotes}>
@@ -413,7 +415,7 @@ export default function Home({ setCurrentPage }) {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* 7. TRENDING PRODUCTS CATALOG */}
       <section className="section" id="products-catalog">
@@ -444,7 +446,7 @@ export default function Home({ setCurrentPage }) {
                     <div className="price">${prod.price.toFixed(2)}</div>
                   </div>
                   <button className="btn-buy" style={{ width: '100%', marginTop: '10px' }} onClick={() => {
-                    setCurrentPage('sourcing');
+                    navigate('/sourcing');
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                   }}>Request Sample</button>
                 </div>
@@ -475,7 +477,7 @@ export default function Home({ setCurrentPage }) {
                 </div>
               </div>
             ))}
-            <button className="btn-primary" style={{ width: 'fit-content' }} onClick={() => setCurrentPage('membership')}>
+            <button className="btn-primary" style={{ width: 'fit-content' }} onClick={() => navigate('/membership')}>
               Compare Membership Plans
             </button>
           </div>
@@ -513,7 +515,7 @@ export default function Home({ setCurrentPage }) {
             <button 
               className="btn-primary" 
               style={{ background: 'white', color: 'var(--primary-green)', marginTop: '20px' }}
-              onClick={() => setCurrentPage('cantonfair')}
+              onClick={() => navigate('/canton-fair')}
             >
               Browse Delegation Packages
             </button>
@@ -525,7 +527,7 @@ export default function Home({ setCurrentPage }) {
               { title: 'Canton Fair Phase 3', details: '🇨🇳 Guangzhou • Apparel & Textles • May 2026' },
               { title: 'Yiwu Commodities Fair', details: '🇨🇳 Yiwu • Retail & Small Commodities • October 2026' }
             ].map((evt, idx) => (
-              <div className="event-card" key={idx} style={{ cursor: 'pointer' }} onClick={() => setCurrentPage('cantonfair')}>
+              <div className="event-card" key={idx} style={{ cursor: 'pointer' }} onClick={() => navigate('/canton-fair')}>
                 <h4>{evt.title}</h4>
                 <p style={{ fontSize: '0.85rem', color: '#666', marginTop: '5px' }}>{evt.details}</p>
               </div>
@@ -538,8 +540,8 @@ export default function Home({ setCurrentPage }) {
       <div className="cta-section" style={{ padding: '80px 20px', borderTop: '1px solid #e5dfd0', background: 'linear-gradient(135deg, #fdfcf7 0%, #ffffff 100%)' }}>
         <h2>Join Namaste China to scale your sourcing safely!</h2>
         <div className="cta-buttons">
-          <button className="btn-large btn-fill" style={{ borderRadius: '6px' }} onClick={() => setCurrentPage('signup')}>Register as Buyer</button>
-          <button className="btn-large btn-outline" style={{ borderRadius: '6px' }} onClick={() => setCurrentPage('signup')}>Register as Supplier</button>
+          <button className="btn-large btn-fill" style={{ borderRadius: '6px' }} onClick={() => navigate('/signup')}>Register as Buyer</button>
+          <button className="btn-large btn-outline" style={{ borderRadius: '6px' }} onClick={() => navigate('/signup')}>Register as Supplier</button>
         </div>
       </div>
     </>

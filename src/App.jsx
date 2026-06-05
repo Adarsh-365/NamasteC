@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Home from './components/Home';
@@ -21,104 +22,51 @@ import TradeConsulting from './components/TradeConsulting';
 import './index.css';
 
 function App() {
-  const [currentPage, setCurrentPage] = useState('home');
+  const location = useLocation();
   const [username, setUsername] = useState('');
   const [role, setRole] = useState('');
 
-  // Handle URL changes or basic url-based routing recovery
-  useEffect(() => {
-    const handleHashAndPath = () => {
-      const path = window.location.pathname;
-      if (path.includes('canton-fair') || path.includes('cantonfair')) {
-        setCurrentPage('cantonfair');
-      } else if (path.includes('about')) {
-        setCurrentPage('about');
-      } else if (path.includes('membership')) {
-        setCurrentPage('membership');
-      } else if (path.includes('contact')) {
-        setCurrentPage('contact');
-      } else if (path.includes('sourcing')) {
-        setCurrentPage('sourcing');
-      } else if (path.includes('verification') || path.includes('audit')) {
-        setCurrentPage('verification');
-      } else if (path.includes('factory-visits') || path.includes('factory-tour')) {
-        setCurrentPage('factoryvisits');
-      } else if (path.includes('import-assistance') || path.includes('logistics')) {
-        setCurrentPage('importassistance');
-      } else if (path.includes('trade-consulting') || path.includes('consulting')) {
-        setCurrentPage('tradeconsulting');
-      } else if (path.includes('login')) {
-        setCurrentPage('login');
-      } else if (path.includes('signup')) {
-        setCurrentPage('signup');
-      } else if (path.includes('index.html')) {
-        setCurrentPage('home');
-        window.history.replaceState({}, '', '/');
-      }
-    };
-    
-    handleHashAndPath();
-    window.addEventListener('popstate', handleHashAndPath);
-    return () => window.removeEventListener('popstate', handleHashAndPath);
-  }, []);
-
-  // SEO Optimizer: Dynamically update header titles & descriptions on route state change
+  // SEO Optimizer: Dynamically update header titles & descriptions on route change
   useEffect(() => {
     let title = "Namaste China - India's Gateway to China Business";
     let description = "Namaste China is India's premier B2B trade gateway. Join Canton Fair 2026 delegations, verify Chinese suppliers, schedule factory visits, and simplify customs compliance.";
     
-    switch (currentPage) {
-      case 'home':
-        title = "Namaste China - India's Gateway to China Business | B2B Sourcing";
-        description = "Source bulk products directly from verified Chinese factories. Secure local sample inspections at our Mumbai warehouse, and manage customs compliance.";
-        break;
-      case 'about':
-        title = "About Us - Global Operating Footprint | Namaste China";
-        description = "Bridges the gap between Indian buyers and Chinese manufacturers with active footprints in Mumbai, Guangzhou, and Foshan.";
-        break;
-      case 'membership':
-        title = "China Trade Sourcing Membership Plans | Namaste China";
-        description = "Outcome-led China sourcing packages tailored for Indian MSMEs and Enterprise industries. Verify suppliers and secure factory visit allowances.";
-        break;
-      case 'cantonfair':
-        title = "Canton Fair 2026 Delegation from India - Guangzhou | Namaste China";
-        description = "Join India's leading Canton Fair 2026 delegation. Complete itineraries, visa coordination, 5-star hotel bookings, and Indian catering.";
-        break;
-      case 'contact':
-        title = "B2B Consultation Hub - Contact Namaste China";
-        description = "Get pre-transaction trade advice, schedule supplier validation audits, or coordinate factory tours with our Mumbai and Guangzhou offices.";
-        break;
-      case 'sourcing':
-        title = "China Product Sourcing & Sample Inspection | Namaste China";
-        description = "Order product samples and inspect them locally in India. Sourcing specialists screen Chinese manufacturers under strict MoU terms.";
-        break;
-      case 'verification':
-        title = "Chinese Supplier Verification & On-Site Audits | Namaste China";
-        description = "Avoid payment scams. Book registration reviews and full physical factory audits conducted by our local Guangzhou auditors.";
-        break;
-      case 'factoryvisits':
-        title = "China Factory Visits & Translator Services | Namaste China";
-        description = "Arrange business travel to Guangzhou, Foshan, or Shenzhen. Secure invitation letters and hire bilingual English-Chinese interpreters.";
-        break;
-      case 'importassistance':
-        title = "Customs Clearance & Container Logistics | Namaste China";
-        description = "Classify HS Codes, estimate customs tariffs, manage import paperwork, and coordinate sea (FCL/LCL) and air freight cargo transport.";
-        break;
-      case 'tradeconsulting':
-        title = "China Trade Advisory & Landed Cost Consulting | Namaste China";
-        description = "Analyze trade risks, draft legally sound bilateral purchase contracts, and determine complete landed pricing to India.";
-        break;
-      case 'login':
-        title = "Log In - Namaste China B2B Platform";
-        break;
-      case 'signup':
-        title = "Join Free - Namaste China B2B Platform";
-        break;
-      case 'notfound':
-        title = "404 Page Not Found - Namaste China";
-        break;
-      default:
-        title = "Namaste China - India's Gateway to China Business";
+    const path = location.pathname;
+    
+    if (path === '/' || path === '/home') {
+      title = "Namaste China - India's Gateway to China Business | B2B Sourcing";
+      description = "Source bulk products directly from verified Chinese factories. Secure local sample inspections at our Mumbai warehouse, and manage customs compliance.";
+    } else if (path === '/about') {
+      title = "About Us - Global Operating Footprint | Namaste China";
+      description = "Bridges the gap between Indian buyers and Chinese manufacturers with active footprints in Mumbai, Guangzhou, and Foshan.";
+    } else if (path === '/membership') {
+      title = "China Trade Sourcing Membership Plans | Namaste China";
+      description = "Outcome-led China sourcing packages tailored for Indian MSMEs and Enterprise industries. Verify suppliers and secure factory visit allowances.";
+    } else if (path === '/canton-fair') {
+      title = "Canton Fair 2026 Delegation from India - Guangzhou | Namaste China";
+      description = "Join India's leading Canton Fair 2026 delegation. Complete itineraries, visa coordination, 5-star hotel bookings, and Indian catering.";
+    } else if (path === '/contact') {
+      title = "B2B Consultation Hub - Contact Namaste China";
+      description = "Get pre-transaction trade advice, schedule supplier validation audits, or coordinate factory tours with our Mumbai and Guangzhou offices.";
+    } else if (path === '/sourcing') {
+      title = "China Product Sourcing & Sample Inspection | Namaste China";
+      description = "Order product samples and inspect them locally in India. Sourcing specialists screen Chinese manufacturers under strict MoU terms.";
+    } else if (path === '/verification') {
+      title = "Chinese Supplier Verification & On-Site Audits | Namaste China";
+      description = "Avoid payment scams. Book registration reviews and full physical factory audits conducted by our local Guangzhou auditors.";
+    } else if (path === '/factory-visits') {
+      title = "China Factory Visits & Translator Services | Namaste China";
+      description = "Arrange business travel to Guangzhou, Foshan, or Shenzhen. Secure invitation letters and hire bilingual English-Chinese interpreters.";
+    } else if (path === '/import-assistance') {
+      title = "Customs Clearance & Container Logistics | Namaste China";
+      description = "Classify HS Codes, estimate customs tariffs, manage import paperwork, and coordinate sea (FCL/LCL) and air freight cargo transport.";
+    } else if (path === '/trade-consulting') {
+      title = "China Trade Advisory & Landed Cost Consulting | Namaste China";
+      description = "Analyze trade risks, draft legally sound bilateral purchase contracts, and determine complete landed pricing to India.";
+    } else if (path === '/login') {
+      title = "Log In - Namaste China B2B Platform";
+    } else if (path === '/signup') {
+      title = "Join Free - Namaste China B2B Platform";
     }
     
     document.title = title;
@@ -136,61 +84,14 @@ function App() {
     
     // Update Canonical URL link
     let canonicalLink = document.querySelector('link[rel="canonical"]');
-    let relativePath = currentPage === 'home' ? '' : currentPage;
+    const canonicalPath = path === '/' ? '' : path.substring(1);
     if (canonicalLink) {
-      canonicalLink.setAttribute('href', `https://www.namastechina.org/${relativePath}`);
+      canonicalLink.setAttribute('href', `https://www.namastechina.org/${canonicalPath}`);
     }
-  }, [currentPage]);
 
-  const renderPage = () => {
-    switch (currentPage) {
-      case 'home':
-        return <Home setCurrentPage={setCurrentPage} />;
-      case 'about':
-        return <About setCurrentPage={setCurrentPage} />;
-      case 'membership':
-        return <Membership setCurrentPage={setCurrentPage} />;
-      case 'cantonfair':
-        return <CantonFair setCurrentPage={setCurrentPage} />;
-      case 'contact':
-        return <Contact setCurrentPage={setCurrentPage} />;
-      case 'sourcing':
-        return <Sourcing setCurrentPage={setCurrentPage} />;
-      case 'verification':
-        return <Verification setCurrentPage={setCurrentPage} />;
-      case 'factoryvisits':
-        return <FactoryVisits setCurrentPage={setCurrentPage} />;
-      case 'importassistance':
-        return <ImportAssistance setCurrentPage={setCurrentPage} />;
-      case 'tradeconsulting':
-        return <TradeConsulting setCurrentPage={setCurrentPage} />;
-      case 'login':
-        return (
-          <Login 
-            setCurrentPage={setCurrentPage} 
-            setUsername={setUsername} 
-            setRole={setRole} 
-          />
-        );
-      case 'signup':
-        return (
-          <SignUp 
-            setCurrentPage={setCurrentPage} 
-            setUsername={setUsername} 
-            setRole={setRole} 
-          />
-        );
-      case 'merchant':
-        if (role === 'merchant') {
-          return <Merchant username={username} />;
-        }
-        return <Home setCurrentPage={setCurrentPage} />;
-      case 'notfound':
-        return <NotFound setCurrentPage={setCurrentPage} />;
-      default:
-        return <NotFound setCurrentPage={setCurrentPage} />;
-    }
-  };
+    // Scroll to top on route change
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [location.pathname]);
 
   const handleGlobalWhatsApp = () => {
     const text = "Hi Namaste China, I am inquiring about India-China B2B trade services (Sourcing, Supplier Verification, Canton Fair). Let's connect.";
@@ -199,9 +100,50 @@ function App() {
 
   return (
     <>
-      <Navbar currentPage={currentPage} setCurrentPage={setCurrentPage} />
+      <Navbar />
       <main className="container">
-        {renderPage()}
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/membership" element={<Membership />} />
+          <Route path="/canton-fair" element={<CantonFair />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/sourcing" element={<Sourcing />} />
+          <Route path="/verification" element={<Verification />} />
+          <Route path="/factory-visits" element={<FactoryVisits />} />
+          <Route path="/import-assistance" element={<ImportAssistance />} />
+          <Route path="/trade-consulting" element={<TradeConsulting />} />
+          <Route 
+            path="/login" 
+            element={
+              <Login 
+                setUsername={setUsername} 
+                setRole={setRole} 
+              />
+            } 
+          />
+          <Route 
+            path="/signup" 
+            element={
+              <SignUp 
+                setUsername={setUsername} 
+                setRole={setRole} 
+              />
+            } 
+          />
+          <Route 
+            path="/merchant" 
+            element={
+              role === 'merchant' ? (
+                <Merchant username={username} />
+              ) : (
+                <Home />
+              )
+            } 
+          />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
       </main>
       
       {/* Floating WhatsApp Action Button for B2B Sourcing Journey */}
@@ -214,7 +156,7 @@ function App() {
       </div>
       <div className="whatsapp-float-text">WhatsApp Trade Desk</div>
 
-      <Footer setCurrentPage={setCurrentPage} />
+      <Footer />
     </>
   );
 }

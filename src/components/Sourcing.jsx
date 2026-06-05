@@ -1,42 +1,38 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import { submitToGoogleSheets, FORM_TYPES } from '../utils/googleSheets';
+import SuccessModal from './SuccessModal';
 
-export default function Sourcing({ setCurrentPage }) {
+export default function Sourcing() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [productType, setProductType] = useState('');
   const [quantity, setQuantity] = useState('');
   const [submitting, setSubmitting] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmitting(true);
     try {
-      const response = await fetch('http://localhost:5000/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name,
-          email,
-          phone,
-          service: 'Product Sourcing',
-          requirement: `Product Type: ${productType}, Est. Quantity: ${quantity}`
-        })
+      // Submit to Google Sheets
+      await submitToGoogleSheets(FORM_TYPES.SOURCING, {
+        name,
+        email,
+        phone,
+        productType,
+        quantity
       });
-      const data = await response.json();
-      if (response.ok) {
-        alert(data.message || 'Sourcing inquiry submitted successfully!');
-        setName('');
-        setEmail('');
-        setPhone('');
-        setProductType('');
-        setQuantity('');
-      } else {
-        alert(data.error || 'Submission failed');
-      }
+      
+      setShowSuccess(true);
+      setName('');
+      setEmail('');
+      setPhone('');
+      setProductType('');
+      setQuantity('');
     } catch (err) {
       console.error(err);
-      alert('Failed to connect to the Consultation API.');
+      alert('Failed to submit. Please try again or contact us via WhatsApp.');
     } finally {
       setSubmitting(false);
     }
@@ -49,6 +45,12 @@ export default function Sourcing({ setCurrentPage }) {
 
   return (
     <>
+      <SuccessModal 
+        isOpen={showSuccess}
+        onClose={() => setShowSuccess(false)}
+        title="Sourcing Request Received!"
+        message="Our procurement team in Mumbai and Guangzhou will review your requirements and contact you within 24 hours."
+      />
       <header className="page-header" style={{
         background: `linear-gradient(rgba(10, 61, 49, 0.9), rgba(10, 61, 49, 0.9)), url('https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1600&q=80')`,
         backgroundSize: 'cover',

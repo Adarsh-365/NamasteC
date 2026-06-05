@@ -1,12 +1,16 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import { submitToGoogleSheets, FORM_TYPES } from '../utils/googleSheets';
+import SuccessModal from './SuccessModal';
 
-export default function ImportAssistance({ setCurrentPage }) {
+export default function ImportAssistance() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [cargoDetails, setCargoDetails] = useState('');
   const [freightType, setFreightType] = useState('Sea Freight (LCL)');
   const [submitting, setSubmitting] = useState(false);
+  const [showSuccessLogistics, setShowSuccessLogistics] = useState(false);
+  const [showSuccessFreight, setShowSuccessFreight] = useState(false);
 
   // Freight Quote Calculator States
   const [shipFrom, setShipFrom] = useState('Shenzhen, China');
@@ -23,30 +27,23 @@ export default function ImportAssistance({ setCurrentPage }) {
     e.preventDefault();
     setSubmitting(true);
     try {
-      const response = await fetch('http://localhost:5000/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name,
-          email,
-          phone,
-          service: 'Import Assistance',
-          requirement: `Cargo: ${cargoDetails}, Type: ${freightType}`
-        })
+      // Submit logistics inquiry to Google Sheets
+      await submitToGoogleSheets(FORM_TYPES.LOGISTICS, {
+        name,
+        email,
+        phone,
+        freightType,
+        cargoDetails
       });
-      const data = await response.json();
-      if (response.ok) {
-        alert(data.message || 'Logistics inquiry submitted successfully!');
-        setName('');
-        setEmail('');
-        setPhone('');
-        setCargoDetails('');
-      } else {
-        alert(data.error || 'Submission failed');
-      }
+      
+      setShowSuccessLogistics(true);
+      setName('');
+      setEmail('');
+      setPhone('');
+      setCargoDetails('');
     } catch (err) {
       console.error(err);
-      alert('Failed to connect to the Consultation API.');
+      alert('Failed to submit. Please try again or contact us via WhatsApp.');
     } finally {
       setSubmitting(false);
     }
@@ -56,16 +53,18 @@ export default function ImportAssistance({ setCurrentPage }) {
     e.preventDefault();
     setCalculating(true);
     try {
-      const response = await fetch(
-        `http://localhost:5000/api/freight/quotes?from=${encodeURIComponent(shipFrom)}&to=${encodeURIComponent(shipTo)}&weight=${shipWeight}`
-      );
-      if (response.ok) {
-        const data = await response.json();
-        setQuotes(data);
-      }
+      // Submit freight calculation to Google Sheets
+      await submitToGoogleSheets(FORM_TYPES.FREIGHT_CALC, {
+        shipFrom,
+        shipTo,
+        shipWeight
+      });
+      
+      // Keep the mock quotes for now since backend is removed
+      setShowSuccessFreight(true);
     } catch (err) {
       console.error(err);
-      alert('Could not fetch real-time quotes.');
+      alert('Failed to submit quote request.');
     } finally {
       setCalculating(false);
     }
@@ -78,6 +77,18 @@ export default function ImportAssistance({ setCurrentPage }) {
 
   return (
     <>
+      <SuccessModal 
+        isOpen={showSuccessLogistics}
+        onClose={() => setShowSuccessLogistics(false)}
+        title="Logistics Inquiry Received!"
+        message="Our customs & shipping team will review your cargo details and send you a detailed quote within 24-48 hours."
+      />
+      <SuccessModal 
+        isOpen={showSuccessFreight}
+        onClose={() => setShowSuccessFreight(false)}
+        title="Freight Quote Request Received!"
+        message="Our logistics team will calculate accurate shipping rates and contact you within 24 hours."
+      />
       <header className="page-header" style={{
         background: `linear-gradient(rgba(10, 61, 49, 0.9), rgba(10, 61, 49, 0.9)), url('https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&w=1600&q=80')`,
         backgroundSize: 'cover',

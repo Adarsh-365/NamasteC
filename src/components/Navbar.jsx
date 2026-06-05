@@ -1,18 +1,20 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 
-export default function Navbar({ currentPage, setCurrentPage }) {
+export default function Navbar() {
+  const navigate = useNavigate();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const handlePageSelect = (pageName) => {
-    setCurrentPage(pageName);
+  const handlePageSelect = (path) => {
+    navigate(path);
     setMobileMenuOpen(false);
     setDropdownOpen(false);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const handleServiceSelect = (pageName) => {
-    setCurrentPage(pageName);
+  const handleServiceSelect = (path) => {
+    navigate(path);
     setDropdownOpen(false);
     setMobileMenuOpen(false);
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -20,17 +22,28 @@ export default function Navbar({ currentPage, setCurrentPage }) {
 
   return (
     <nav className="navbar">
-      <div className="logo" onClick={() => handlePageSelect('home')} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px' }}>
+      <Link 
+        to="/" 
+        className="logo" 
+        style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px', textDecoration: 'none', color: 'inherit' }}
+        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+      >
         <i className="fa-solid fa-earth-asia" style={{ color: 'var(--accent-green)' }}></i>
         <span>Namaste China</span>
-      </div>
+      </Link>
 
       <ul className={`nav-links ${mobileMenuOpen ? 'mobile-open' : ''}`}>
-        <li 
-          className={currentPage === 'home' ? 'active' : ''} 
-          onClick={() => handlePageSelect('home')}
-        >
-          Home
+        <li>
+          <NavLink 
+            to="/" 
+            className={({ isActive }) => isActive ? 'active' : ''}
+            onClick={() => {
+              setMobileMenuOpen(false);
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+          >
+            Home
+          </NavLink>
         </li>
         
         {/* Services Dropdown */}
@@ -48,15 +61,15 @@ export default function Navbar({ currentPage, setCurrentPage }) {
           {dropdownOpen && (
             <ul className="dropdown-menu">
               {[
-                { label: 'China Product Sourcing', page: 'sourcing', icon: 'fa-box-open' },
-                { label: 'Supplier Verification & Audits', page: 'verification', icon: 'fa-user-shield' },
-                { label: 'Factory Visits & Tours', page: 'factoryvisits', icon: 'fa-building-shield' },
-                { label: 'Import Assistance & Logistics', page: 'importassistance', icon: 'fa-truck-ramp-box' },
-                { label: 'Trade Consulting & Advisory', page: 'tradeconsulting', icon: 'fa-scale-balanced' }
+                { label: 'China Product Sourcing', path: '/sourcing', icon: 'fa-box-open' },
+                { label: 'Supplier Verification & Audits', path: '/verification', icon: 'fa-user-shield' },
+                { label: 'Factory Visits & Tours', path: '/factory-visits', icon: 'fa-building-shield' },
+                { label: 'Import Assistance & Logistics', path: '/import-assistance', icon: 'fa-truck-ramp-box' },
+                { label: 'Trade Consulting & Advisory', path: '/trade-consulting', icon: 'fa-scale-balanced' }
               ].map((item) => (
                 <li 
-                  key={item.page}
-                  onClick={() => handleServiceSelect(item.page)}
+                  key={item.path}
+                  onClick={() => handleServiceSelect(item.path)}
                   className="dropdown-item"
                 >
                   <i className={`fa-solid ${item.icon}`} style={{ color: 'var(--primary-green)', width: '16px' }}></i>
@@ -67,41 +80,63 @@ export default function Navbar({ currentPage, setCurrentPage }) {
           )}
         </li>
 
-        <li 
-          className={currentPage === 'about' ? 'active' : ''} 
-          onClick={() => handlePageSelect('about')}
-        >
-          About Us
+        <li>
+          <NavLink 
+            to="/about" 
+            className={({ isActive }) => isActive ? 'active' : ''}
+            onClick={() => {
+              setMobileMenuOpen(false);
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+          >
+            About Us
+          </NavLink>
         </li>
-        <li 
-          className={currentPage === 'membership' ? 'active' : ''} 
-          onClick={() => handlePageSelect('membership')}
-        >
-          Membership Plans
+        <li>
+          <NavLink 
+            to="/membership" 
+            className={({ isActive }) => isActive ? 'active' : ''}
+            onClick={() => {
+              setMobileMenuOpen(false);
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+          >
+            Membership Plans
+          </NavLink>
         </li>
-        <li 
-          className={currentPage === 'cantonfair' ? 'active' : ''} 
-          onClick={() => handlePageSelect('cantonfair')}
-        >
-          Canton Fair 2026
+        <li>
+          <NavLink 
+            to="/canton-fair" 
+            className={({ isActive }) => isActive ? 'active' : ''}
+            onClick={() => {
+              setMobileMenuOpen(false);
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+          >
+            Canton Fair 2026
+          </NavLink>
         </li>
-        <li 
-          className={currentPage === 'contact' ? 'active' : ''} 
-          onClick={() => handlePageSelect('contact')}
-        >
-          Contact Us
-        </li>
+        {/* <li>
+          <NavLink 
+            to="/contact" 
+            className={({ isActive }) => isActive ? 'active' : ''}
+            onClick={() => {
+              setMobileMenuOpen(false);
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+          >
+            Contact Us
+          </NavLink>
+        </li> */}
 
-        {/* Mobile auth links (will be visible only on mobile via CSS) */}
+        {/* Mobile contact button (will be visible only on mobile via CSS) */}
         <li className="mobile-auth-item">
-          <button className="btn-text mobile-login-btn" onClick={() => handlePageSelect('login')}>Log In</button>
-          <button className="btn-primary mobile-join-btn" onClick={() => handlePageSelect('signup')}>Join Free</button>
+          <button className="btn-primary" onClick={() => handlePageSelect('/contact')}>Contact Us</button>
         </li>
       </ul>
 
       <div className="auth-buttons">
-        <button className="btn-text" onClick={() => setCurrentPage('login')}>Log In</button>
-        <button className="btn-primary" onClick={() => setCurrentPage('signup')}>Join Free</button>
+        <button className="btn-primary" onClick={() => navigate('/contact')}>Contact Us</button>
       </div>
 
       {/* Hamburger icon for mobile menu toggler */}

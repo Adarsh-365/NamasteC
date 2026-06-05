@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
+import { submitToGoogleSheets, FORM_TYPES } from '../utils/googleSheets';
+import SuccessModal from './SuccessModal';
 
 export default function Contact() {
   const [name, setName] = useState('');
@@ -8,6 +10,7 @@ export default function Contact() {
   const [requirement, setRequirement] = useState('');
   const [utmSource, setUtmSource] = useState('organic_direct');
   const [submitting, setSubmitting] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
 
   // Capture URL parameters for CRM/UTM source tracking on mount
   useEffect(() => {
@@ -24,32 +27,23 @@ export default function Contact() {
     }
     setSubmitting(true);
     try {
-      const response = await fetch('http://localhost:5000/api/contact', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ 
-          name, 
-          email, 
-          phone, 
-          service, 
-          requirement: `[Tracked Source: ${utmSource}] ${requirement}` 
-        })
+      // Submit to Google Sheets
+      await submitToGoogleSheets(FORM_TYPES.CONTACT, {
+        name,
+        email,
+        phone,
+        service,
+        requirement: `[Tracked Source: ${utmSource}] ${requirement}`
       });
-      const data = await response.json();
-      if (response.ok) {
-        alert(data.message || 'Trade inquiry registered successfully! Our procurement team will contact you.');
-        setName('');
-        setEmail('');
-        setPhone('');
-        setRequirement('');
-      } else {
-        alert(data.error || 'Failed to submit trade inquiry.');
-      }
+      
+      setShowSuccess(true);
+      setName('');
+      setEmail('');
+      setPhone('');
+      setRequirement('');
     } catch (err) {
       console.error(err);
-      alert('Failed to connect to the B2B Consultation API. Sourcing desk is offline.');
+      alert('Failed to submit. Please try again or contact us via WhatsApp.');
     } finally {
       setSubmitting(false);
     }
@@ -62,6 +56,12 @@ export default function Contact() {
 
   return (
     <>
+      <SuccessModal 
+        isOpen={showSuccess}
+        onClose={() => setShowSuccess(false)}
+        title="Inquiry Received!"
+        message="Thank you for reaching out! Our trade advisors will contact you within 24 hours via email or WhatsApp."
+      />
       <header className="page-header" style={{
         background: `linear-gradient(rgba(10, 61, 49, 0.93), rgba(10, 61, 49, 0.93)), url('https://images.unsplash.com/photo-1423666639041-f56000c27a9a?auto=format&fit=crop&w=1600&q=80')`,
         backgroundSize: 'cover',
