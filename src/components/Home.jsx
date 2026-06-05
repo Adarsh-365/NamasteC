@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import SEOHead from './SEOHead';
+import { siteConfig } from '../utils/seoConfig';
 
 export default function Home() {
   const navigate = useNavigate();
@@ -16,16 +18,69 @@ export default function Home() {
   const [products, setProducts] = useState([]);
   const [loadingProducts, setLoadingProducts] = useState(true);
 
-  // State for Freight Quote Calculator
-  const [shipFrom, setShipFrom] = useState('Guangzhou, China');
-  const [shipTo, setShipTo] = useState('Mumbai, India');
-  const [shipWeight, setShipWeight] = useState(1000);
-  const [freightQuotes, setFreightQuotes] = useState([
-    { carrier: 'Maersk Line', days: '14-18 Days', price: 1800 },
-    { carrier: 'MSC Shipping', days: '16-20 Days', price: 1720 },
-    { carrier: 'COSCO Group', days: '12-15 Days', price: 1950 }
-  ]);
-  const [loadingQuotes, setLoadingQuotes] = useState(false);
+  // SEO Schema for Home Page - AI Search Optimization
+  const homeSchema = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'FAQPage',
+        mainEntity: [
+          {
+            '@type': 'Question',
+            name: 'How much does it cost to import from China to India?',
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: 'Import costs include product cost, shipping (₹50-150/kg for sea freight), customs duty (5-40% based on HS code), GST, and clearance fees (₹5,000-15,000). Total landed cost typically adds 25-45% to FOB price. Namaste China provides free landed cost calculations for all sourcing requests.'
+            }
+          },
+          {
+            '@type': 'Question',
+            name: 'What is Canton Fair 2026?',
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: 'Canton Fair (China Import and Export Fair) is the world\'s largest trade exhibition held in Guangzhou biannually. 2026 dates: Phase 1 (Apr 15-19), Phase 2 (Apr 23-27), Phase 3 (May 1-5). Namaste China offers complete delegation packages starting from ₹89,000 including visa support, return flights, 4-star hotels, and English-Chinese interpreters.'
+            }
+          },
+          {
+            '@type': 'Question',
+            name: 'How do I verify a Chinese supplier is genuine?',
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: 'Verify Chinese suppliers by: (1) Checking AIC business license registration, (2) Confirming physical factory address, (3) Validating export license, (4) Verifying bank account ownership, (5) Conducting on-site factory inspection. Namaste China offers registry checks at ₹2,500 and full factory audits at ₹7,500 by our Guangzhou-based team.'
+            }
+          },
+          {
+            '@type': 'Question',
+            name: 'How does Mumbai warehouse inspection work?',
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: 'We source product samples from Chinese manufacturers and ship them to our 15,000 sq ft Mumbai warehouse in Vashi. Indian buyers can visit our facility to physically inspect quality, dimensions, and packaging before committing to bulk container orders. This eliminates the risk of receiving substandard goods.'
+            }
+          },
+          {
+            '@type': 'Question',
+            name: 'What services does Namaste China provide?',
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: 'Namaste China provides six core services: (1) Canton Fair 2026 business delegation, (2) China product sourcing with Mumbai warehouse inspection, (3) Supplier verification and factory audits in Guangzhou, (4) Organized factory visits to Foshan/Shenzhen, (5) Import logistics and customs clearance, (6) China trade consulting and risk assessment. We have offices in Mumbai and Guangdong.'
+            }
+          }
+        ]
+      },
+      {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          {
+            '@type': 'ListItem',
+            position: 1,
+            name: 'Home',
+            item: `${siteConfig.siteUrl}/`
+          }
+        ]
+      }
+    ]
+  };
+
 
   // Fetch products on mount and when search parameters change
   const fetchProducts = async (query = '') => {
@@ -60,25 +115,7 @@ export default function Home() {
 
   const handleGetQuotes = async (e) => {
     e.preventDefault();
-    if (!shipFrom.trim() || !shipTo.trim() || !shipWeight) {
-      alert('Please fill in all freight fields.');
-      return;
-    }
-    setLoadingQuotes(true);
-    try {
-      const response = await fetch(
-        `http://localhost:5000/api/freight/quotes?from=${encodeURIComponent(shipFrom)}&to=${encodeURIComponent(shipTo)}&weight=${shipWeight}`
-      );
-      if (response.ok) {
-        const data = await response.json();
-        setFreightQuotes(data);
-      }
-    } catch (err) {
-      console.error('Failed to fetch quotes:', err);
-      alert('Could not calculate quotes from API.');
-    } finally {
-      setLoadingQuotes(false);
-    }
+    // Removed unused freight calculator
   };
 
   const handleCategoryClick = (catName) => {
@@ -92,11 +129,20 @@ export default function Home() {
 
   return (
     <>
+      {/* SEO Head with Schema */}
+      <SEOHead
+        title="China Product Sourcing & Import Services India | Namaste China"
+        description="India's #1 China sourcing agent. Canton Fair 2026 delegation, supplier verification, factory audits, Mumbai warehouse inspection. 500+ businesses trust us for safe China imports."
+        keywords="china product sourcing india, import from china, china sourcing agent india, supplier verification china, canton fair 2026 india, guangzhou sourcing agent, mumbai warehouse inspection, factory audit services"
+        canonical="/"
+        schema={homeSchema}
+      />
+
       {/* 2. REPOSITIONED HERO SECTION */}
       <header className="hero" style={{ padding: '90px 20px 70px', background: 'linear-gradient(rgba(10, 61, 49, 0.95), rgba(10, 61, 49, 0.95)), url("https://images.unsplash.com/photo-1542744094-3a31f103e35f?auto=format&fit=crop&w=1600&q=80")', backgroundSize: 'cover', backgroundPosition: 'center' }}>
         <span className="gold-badge" style={{ marginBottom: '15px', display: 'inline-block' }}>India's Gateway to China Business</span>
         <h1 style={{ fontSize: '3rem', maxWidth: '900px', margin: '0 auto 20px', lineHeight: '1.2' }}>
-          Accelerate Sourcing. Eliminate Import Risk.
+          China Product Sourcing & Import Services for Indian Businesses
         </h1>
         <p style={{ maxWidth: '750px', margin: '0 auto 35px', fontSize: '1.15rem', opacity: 0.9, lineHeight: '1.6' }}>
           Connect directly with verified Chinese manufacturers. Physically inspect samples in our <strong>Mumbai Warehouse</strong>, join our guided <strong>Canton Fair 2026 delegation</strong>, and secure door-to-door shipping compliance.
@@ -128,8 +174,11 @@ export default function Home() {
             placeholder="Search verified products or suppliers... (e.g. Steel, Electronics)"
             value={searchVal}
             onChange={(e) => setSearchVal(e.target.value)}
-            onKeyPress={(e) => {
-              if (e.key === 'Enter') handleSearch(searchVal);
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                e.preventDefault();
+                handleSearch(searchVal);
+              }
             }}
           />
           <button onClick={() => handleSearch(searchVal)}>Search</button>
@@ -328,8 +377,11 @@ export default function Home() {
                   placeholder="What item are you looking for? (e.g. Copper wire, Ceramic tiles)"
                   value={lookupVal}
                   onChange={(e) => setLookupVal(e.target.value)}
-                  onKeyPress={(e) => {
-                    if (e.key === 'Enter') handleSearch(lookupVal);
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      e.preventDefault();
+                      handleSearch(lookupVal);
+                    }
                   }}
                 />
                 <button onClick={() => handleSearch(lookupVal)}>

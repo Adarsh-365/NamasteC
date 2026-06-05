@@ -1,7 +1,58 @@
 import { useNavigate } from 'react-router-dom';
+import SEOHead from './SEOHead';
+import { siteConfig } from '../utils/seoConfig';
 
 export default function About() {
   const navigate = useNavigate();
+
+  // SEO Schema for About Page
+  const aboutSchema = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'AboutPage',
+        mainEntity: {
+          '@type': 'Organization',
+          '@id': `${siteConfig.siteUrl}/#organization`,
+          name: 'Namaste China',
+          foundingDate: '2021',
+          description: 'Leading India-China B2B trade facilitation company with offices in Mumbai and Guangzhou, helping Indian businesses import safely',
+          numberOfEmployees: {
+            '@type': 'QuantitativeValue',
+            value: '25'
+          },
+          slogan: 'India\'s Gateway to China Business',
+          knowsAbout: [
+            'China Product Sourcing',
+            'Import Export Services',
+            'Supplier Verification',
+            'Trade Consulting',
+            'Canton Fair Delegation',
+            'Factory Audits',
+            'Customs Clearance'
+          ]
+        }
+      },
+      {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          {
+            '@type': 'ListItem',
+            position: 1,
+            name: 'Home',
+            item: `${siteConfig.siteUrl}/`
+          },
+          {
+            '@type': 'ListItem',
+            position: 2,
+            name: 'About Us',
+            item: `${siteConfig.siteUrl}/about`
+          }
+        ]
+      }
+    ]
+  };
+
 
   const handleContactClick = () => {
     navigate('/contact');
@@ -15,6 +66,15 @@ export default function About() {
 
   return (
     <>
+      {/* SEO Head */}
+      <SEOHead
+        title="About Namaste China - India-China B2B Trade Experts Since 2021"
+        description="Established 2021. Mumbai HQ + Guangzhou office. 500+ supplier audits completed. 15,000 sq ft Mumbai warehouse. 100% Canton Fair visa success rate. Expert China sourcing agents for Indian businesses."
+        keywords="namaste china company, india china trade facilitator, b2b sourcing company, guangzhou office india, mumbai sourcing hub, trade delegation services"
+        canonical="/about"
+        schema={aboutSchema}
+      />
+
       {/* HEADER */}
       <header className="page-header" style={{
         background: `linear-gradient(rgba(10, 61, 49, 0.92), rgba(10, 61, 49, 0.92)), url('https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1600&q=80')`,

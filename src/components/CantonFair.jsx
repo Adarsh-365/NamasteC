@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { submitToGoogleSheets, FORM_TYPES } from '../utils/googleSheets';
 import SuccessModal from './SuccessModal';
+import SEOHead from './SEOHead';
+import { siteConfig } from '../utils/seoConfig';
 
 export default function CantonFair() {
   const [selectedPhase, setSelectedPhase] = useState('phase2');
@@ -10,6 +12,75 @@ export default function CantonFair() {
   const [requirements, setRequirements] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
+
+  // SEO Schema for Canton Fair Event
+  const cantonFairSchema = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'Event',
+        name: 'Canton Fair 2026 India Delegation',
+        description: 'Join India\'s premier business delegation to Canton Fair 2026 in Guangzhou, China. Complete package with business visa support, return flights, 4-star hotels, English-Chinese interpreters, and exhibition entry.',
+        startDate: '2026-04-15',
+        endDate: '2026-05-05',
+        eventStatus: 'https://schema.org/EventScheduled',
+        eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+        location: {
+          '@type': 'Place',
+          name: 'Canton Fair Complex',
+          address: {
+            '@type': 'PostalAddress',
+            streetAddress: 'No. 380 Yuejiang Zhong Road',
+            addressLocality: 'Guangzhou',
+            addressRegion: 'Guangdong',
+            postalCode: '510000',
+            addressCountry: 'CN'
+          },
+          geo: {
+            '@type': 'GeoCoordinates',
+            latitude: '23.1185',
+            longitude: '113.3273'
+          }
+        },
+        organizer: {
+          '@type': 'Organization',
+          name: 'Namaste China',
+          url: siteConfig.siteUrl
+        },
+        offers: {
+          '@type': 'Offer',
+          name: 'Canton Fair Delegation Package',
+          price: '89000',
+          priceCurrency: 'INR',
+          availability: 'https://schema.org/InStock',
+          validFrom: '2025-10-01',
+          url: `${siteConfig.siteUrl}/canton-fair`
+        },
+        performer: {
+          '@type': 'Organization',
+          name: 'Namaste China'
+        }
+      },
+      {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          {
+            '@type': 'ListItem',
+            position: 1,
+            name: 'Home',
+            item: `${siteConfig.siteUrl}/`
+          },
+          {
+            '@type': 'ListItem',
+            position: 2,
+            name: 'Canton Fair 2026',
+            item: `${siteConfig.siteUrl}/canton-fair`
+          }
+        ]
+      }
+    ]
+  };
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -44,6 +115,16 @@ export default function CantonFair() {
 
   return (
     <>
+      {/* SEO Head with Event Schema */}
+      <SEOHead
+        title="Canton Fair 2026 Delegation from India - Guangzhou Trade Fair | Namaste China"
+        description="Join India's #1 Canton Fair delegation. April-May 2026. Business visa support, return flights, 4-star hotels, English-Chinese interpreters, transfers. 100% visa success rate. Limited seats."
+        keywords="canton fair 2026 india, canton fair delegation, guangzhou trade fair, china import expo, business visa china, canton fair package india, trade exhibition guangzhou"
+        canonical="/canton-fair"
+        ogType="event"
+        schema={cantonFairSchema}
+      />
+
       <SuccessModal 
         isOpen={showSuccess}
         onClose={() => setShowSuccess(false)}

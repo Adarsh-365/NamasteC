@@ -1,0 +1,38 @@
+# Namaste China - Robots.txt
+# Allow all search engines and AI bots
+
+User-agent: *
+Allow: /
+
+# Allow AI search bots explicitly
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Googlebot
+Allow: /
+
+# Disallow admin/auth pages
+Disallow: /login
+Disallow: /signup
+Disallow: /merchant
+
+# Sitemap location
+Sitemap: https://www.namastechina.org/sitemap.xml
+
+# Crawl delay (be respectful to servers)
+Crawl-delay: 1
