@@ -281,7 +281,7 @@ const CampaignLanding = () => {
           </div>
         </section>
 
-        {/* Social Proof */}
+        {/* Social Proof
         <section className="testimonials-section">
           <div className="container">
             <h2 className="section-title">What Our Clients Say</h2>
@@ -303,7 +303,7 @@ const CampaignLanding = () => {
               ))}
             </div>
           </div>
-        </section>
+        </section> */}
 
         {/* Canton Fair Section */}
         <section className="canton-fair-section">
