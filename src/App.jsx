@@ -18,6 +18,7 @@ import Verification from './components/Verification';
 import FactoryVisits from './components/FactoryVisits';
 import ImportAssistance from './components/ImportAssistance';
 import TradeConsulting from './components/TradeConsulting';
+import CampaignLanding from './components/CampaignLanding';
 
 import './index.css';
 
@@ -114,6 +115,7 @@ function App() {
           <Route path="/factory-visits" element={<FactoryVisits />} />
           <Route path="/import-assistance" element={<ImportAssistance />} />
           <Route path="/trade-consulting" element={<TradeConsulting />} />
+          <Route path="/campaign" element={<CampaignLanding />} />
           <Route 
             path="/login" 
             element={

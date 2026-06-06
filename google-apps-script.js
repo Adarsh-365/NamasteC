@@ -5,7 +5,7 @@
 function doPost(e) {
   try {
     const data = JSON.parse(e.postData.contents);
-    const formType = data.formType;
+    const formType = data.formType || data.source;
     const spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
     
     // Map form types to sheet names (tabs)
@@ -18,7 +18,8 @@ function doPost(e) {
       'logistics': 'Logistics Inquiry',
       'tradeConsulting': 'Trade Consulting',
       'cantonFair': 'Canton Fair',
-      'membership': 'Membership'
+      'membership': 'Membership',
+      'Campaign Landing Page': 'Campaign Leads'
     };
     
     const sheetName = sheetMap[formType];
@@ -70,7 +71,8 @@ function getHeadersForFormType(formType) {
     'logistics': ['Timestamp', 'Name', 'Email', 'Phone', 'Freight Type', 'Cargo Details'],
     'tradeConsulting': ['Timestamp', 'Name', 'Email', 'Phone', 'Consultation Topic', 'Details'],
     'cantonFair': ['Timestamp', 'Name', 'Email', 'Phone', 'Selected Phase', 'Requirements'],
-    'membership': ['Timestamp', 'Name', 'Email', 'Phone', 'Selected Plan', 'Duration']
+    'membership': ['Timestamp', 'Name', 'Email', 'Phone', 'Selected Plan', 'Duration'],
+    'Campaign Landing Page': ['Timestamp', 'Name', 'Phone', 'Company', 'Product Requirement', 'Source']
   };
   return headerMap[formType] || ['Timestamp', 'Data'];
 }
@@ -87,7 +89,8 @@ function prepareRowData(formType, data) {
     'logistics': [timestamp, data.name, data.email, data.phone, data.freightType, data.cargoDetails],
     'tradeConsulting': [timestamp, data.name, data.email, data.phone, data.consultationTopic, data.details],
     'cantonFair': [timestamp, data.name, data.email, data.phone, data.selectedPhase, data.requirements],
-    'membership': [timestamp, data.name, data.email, data.phone, data.selectedPlan, data.selectedDuration]
+    'membership': [timestamp, data.name, data.email, data.phone, data.selectedPlan, data.selectedDuration],
+    'Campaign Landing Page': [timestamp, data.name, data.phone, data.company, data.productRequirement, data.source]
   };
   
   return dataMap[formType] || [timestamp, JSON.stringify(data)];
