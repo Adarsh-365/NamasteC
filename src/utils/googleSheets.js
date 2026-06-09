@@ -1,13 +1,13 @@
 // Utility to submit forms to Google Sheets
 // ONE Spreadsheet with multiple sheets (tabs)
 
-const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzGj9B7ISbf16gJuVBy9D4mZ3xbgrQ5TjY-3fk_51xpQ1K5JXU10veupV440qpXtSX42A/exec';
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyWwWPW70jb_hTaFAQ6aotxv9eLB1hDty1eBSJtycsy883Nxw9JwmU7QeKuxZVhPG0ewA/exec';
 
 export const submitToGoogleSheets = async (formType, formData) => {
   try {
     console.log('Submitting to Google Sheets:', formType, formData); // Debug log
     
-    const response = await fetch(GOOGLE_SCRIPT_URL, {
+    await fetch(GOOGLE_SCRIPT_URL, {
       method: 'POST',
       mode: 'no-cors', // Important for Google Apps Script
       headers: {
@@ -39,5 +39,6 @@ export const FORM_TYPES = {
   LOGISTICS: 'logistics',
   TRADE_CONSULTING: 'tradeConsulting',
   CANTON_FAIR: 'cantonFair',
-  MEMBERSHIP: 'membership'
+  MEMBERSHIP: 'membership',
+  CAMPAIGN_LANDING: 'campaignLanding'
 };

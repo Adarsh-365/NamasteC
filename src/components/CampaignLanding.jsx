@@ -1,17 +1,25 @@
-import { useState } from 'react';
+﻿import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
+import { submitToGoogleSheets, FORM_TYPES } from '../utils/googleSheets';
+import SuccessModal from './SuccessModal';
 import '../styles/CampaignLanding.css';
 
 const CampaignLanding = () => {
   const [formData, setFormData] = useState({
-    name: '',
-    phone: '',
-    company: '',
-    productRequirement: ''
+    fullName: '',
+    mobileNumber: '',
+    companyName: '',
+    city: '',
+    helpWith: '',
+    productBusinessRequirement: '',
+    monthlyPurchaseBudget: '',
+    expectedTimeline: '',
+    additionalDetails: ''
   });
   const [showSuccess, setShowSuccess] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [openFaq, setOpenFaq] = useState(null);
+  const [animatedStats, setAnimatedStats] = useState([0, 0, 0, 0]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -22,19 +30,23 @@ const CampaignLanding = () => {
     setIsSubmitting(true);
 
     try {
-      await fetch(import.meta.env.VITE_GOOGLE_SCRIPT_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          ...formData,
-          timestamp: new Date().toISOString(),
-          source: 'Campaign Landing Page'
-        })
+      await submitToGoogleSheets(FORM_TYPES.CAMPAIGN_LANDING, {
+        ...formData,
+        source: 'Campaign Landing Page'
       });
 
       setShowSuccess(true);
-      setFormData({ name: '', phone: '', company: '', productRequirement: '' });
+      setFormData({
+        fullName: '',
+        mobileNumber: '',
+        companyName: '',
+        city: '',
+        helpWith: '',
+        productBusinessRequirement: '',
+        monthlyPurchaseBudget: '',
+        expectedTimeline: '',
+        additionalDetails: ''
+      });
       
       if (window.fbq) {
         window.fbq('track', 'Lead', { content_name: 'China Sourcing Plan', value: 1.00, currency: 'INR' });
@@ -52,11 +64,33 @@ const CampaignLanding = () => {
   const calendlyLink = "https://calendly.com/india-namaste1998/30min";
   const whatsappLink = "https://wa.me/919820298048?text=Hi,%20I%20want%20to%20discuss%20China%20sourcing";
 
+  useEffect(() => {
+    const targets = [500, 100, 50, 2021];
+    const duration = 1400;
+    const startTime = performance.now();
+    let frameId;
+
+    const animate = (currentTime) => {
+      const progress = Math.min((currentTime - startTime) / duration, 1);
+      const easedProgress = 1 - Math.pow(1 - progress, 3);
+
+      setAnimatedStats(targets.map((target) => Math.floor(target * easedProgress)));
+
+      if (progress < 1) {
+        frameId = requestAnimationFrame(animate);
+      }
+    };
+
+    frameId = requestAnimationFrame(animate);
+
+    return () => cancelAnimationFrame(frameId);
+  }, []);
+
   const stats = [
-    { number: '500+', label: 'Supplier Verifications' },
-    { number: '100+', label: 'Factory Visits' },
-    { number: '50+', label: 'Canton Fair Delegations' },
-    { number: '2021', label: 'Operating Since' }
+    { target: 500, suffix: '+', label: 'Supplier Verifications' },
+    { target: 100, suffix: '+', label: 'Factory Visits' },
+    { target: 50, suffix: '+', label: 'Canton Fair Delegations' },
+    { target: 2021, suffix: '', label: 'Operating Since' }
   ];
 
   const services = [
@@ -66,30 +100,6 @@ const CampaignLanding = () => {
     { icon: '✓', title: 'China Import Consulting', desc: 'End-to-end sourcing guidance from experts.' },
     { icon: '✓', title: 'Logistics Coordination', desc: 'Shipping and documentation assistance.' },
     { icon: '✓', title: 'India-China Business Desk', desc: 'Single point of contact for all your needs.' }
-  ];
-
-  const testimonials = [
-    {
-      name: 'Rajesh Kumar',
-      company: 'RK Electronics',
-      industry: 'Electronics',
-      text: 'Namaste China helped us find a verified supplier and saved months of sourcing effort.',
-      rating: 5
-    },
-    {
-      name: 'Priya Shah',
-      company: 'HomeStyle Imports',
-      industry: 'Home Decor',
-      text: 'Their Canton Fair delegation service was seamless. Every detail was handled professionally.',
-      rating: 5
-    },
-    {
-      name: 'Amit Patel',
-      company: 'TechBuild Manufacturing',
-      industry: 'Manufacturing',
-      text: 'Factory verification saved us from a potential scam. Highly recommend their services.',
-      rating: 5
-    }
   ];
 
   const faqs = [
@@ -103,6 +113,12 @@ const CampaignLanding = () => {
 
   return (
     <>
+      <SuccessModal
+        isOpen={showSuccess}
+        onClose={() => setShowSuccess(false)}
+        title="Consultation Request Received!"
+        message="Thank you! Our team will contact you within 24 hours to discuss your China business goals."
+      />
       <Helmet>
         <title>Source Directly From Verified Chinese Manufacturers | Namaste China</title>
         <meta name="description" content="Join professionally managed Canton Fair delegations, verify suppliers, visit factories and import confidently with on-ground support in India and China." />
@@ -128,17 +144,15 @@ const CampaignLanding = () => {
         <section className="hero">
           <div className="hero-content">
             <div className="hero-left">
-              <div className="hero-badge">🇮🇳 India-China Trade Partner 🇨🇳</div>
+                            <div className="hero-badge">India–China Trade Partner</div>
               <h1 className="hero-title">
-                Source Directly From<br />
-                <span className="gradient-text">Verified Chinese Manufacturers</span>
+                Let's Discuss Your China Business Goals
               </h1>
               <p className="hero-subtitle">
-                Join our professionally managed Canton Fair delegations, verify suppliers, 
-                visit factories and import confidently with on-ground support in India and China.
+                Whether you're looking to source products, verify suppliers, visit factories, or join Canton Fair, our team is here to help.
               </p>
               
-              <div className="trust-badges">
+              <div className="trust-grid">
                 <div className="badge">✓ Mumbai Office</div>
                 <div className="badge">✓ Guangzhou Support Team</div>
                 <div className="badge">✓ 500+ Supplier Verifications</div>
@@ -158,56 +172,100 @@ const CampaignLanding = () => {
             <div className="hero-right">
               <div className="form-card">
                 <div className="form-header">
-                  <h3>Get Your China Sourcing Plan</h3>
-                  <p>Tell us your requirement. We'll create a custom strategy.</p>
+                  <h3>Get Free Consultation</h3>
+                  <p>Share your goals and we’ll recommend the right next step.</p>
                 </div>
                 <form onSubmit={handleSubmit} className="lead-form">
                   <input
                     type="text"
-                    name="name"
-                    placeholder="Your Name"
-                    value={formData.name}
+                    name="fullName"
+                    placeholder="Full Name"
+                    value={formData.fullName}
                     onChange={handleChange}
                     required
                     className="form-field"
                   />
                   <input
                     type="tel"
-                    name="phone"
-                    placeholder="Phone Number"
-                    value={formData.phone}
+                    name="mobileNumber"
+                    placeholder="Mobile Number"
+                    value={formData.mobileNumber}
                     onChange={handleChange}
                     required
                     className="form-field"
                   />
                   <input
                     type="text"
-                    name="company"
+                    name="companyName"
                     placeholder="Company Name"
-                    value={formData.company}
+                    value={formData.companyName}
                     onChange={handleChange}
                     required
                     className="form-field"
                   />
+                  <input
+                    type="text"
+                    name="city"
+                    placeholder="City"
+                    value={formData.city}
+                    onChange={handleChange}
+                    required
+                    className="form-field"
+                  />
+                  <select
+                    name="helpWith"
+                    value={formData.helpWith}
+                    onChange={handleChange}
+                    required
+                    className="form-field"
+                  >
+                    <option value="">How Can We Help You?</option>
+                    <option value="Source Products">Source Products</option>
+                    <option value="Verify Suppliers">Verify Suppliers</option>
+                    <option value="Visit Factories">Visit Factories</option>
+                    <option value="Join Canton Fair">Join Canton Fair</option>
+                    <option value="Trade Consultation">Trade Consultation</option>
+                  </select>
                   <textarea
-                    name="productRequirement"
-                    placeholder="What products are you looking to source?"
-                    value={formData.productRequirement}
+                    name="productBusinessRequirement"
+                    placeholder="Product/Business Requirement"
+                    value={formData.productBusinessRequirement}
                     onChange={handleChange}
                     required
                     rows="3"
                     className="form-field"
                   ></textarea>
+                  <input
+                    type="text"
+                    name="monthlyPurchaseBudget"
+                    placeholder="Monthly Purchase Budget"
+                    value={formData.monthlyPurchaseBudget}
+                    onChange={handleChange}
+                    required
+                    className="form-field"
+                  />
+                  <input
+                    type="text"
+                    name="expectedTimeline"
+                    placeholder="Expected Timeline"
+                    value={formData.expectedTimeline}
+                    onChange={handleChange}
+                    required
+                    className="form-field"
+                  />
+                  <textarea
+                    name="additionalDetails"
+                    placeholder="Additional Details"
+                    value={formData.additionalDetails}
+                    onChange={handleChange}
+                    rows="3"
+                    className="form-field"
+                  ></textarea>
                   <button type="submit" disabled={isSubmitting} className="btn-submit">
-                    {isSubmitting ? 'Submitting...' : 'Get My China Sourcing Plan'}
+                    {isSubmitting ? 'Submitting...' : 'Get Free Consultation'}
                   </button>
                   <p className="form-note">✓ Response within 24 hours</p>
                 </form>
-                {showSuccess && (
-                  <div className="success-alert">
-                    ✓ Thank you! We'll contact you within 24 hours.
-                  </div>
-                )}
               </div>
             </div>
           </div>
@@ -218,7 +276,7 @@ const CampaignLanding = () => {
           <div className="stats-container">
             {stats.map((stat, idx) => (
               <div key={idx} className="stat-card">
-                <div className="stat-number">{stat.number}</div>
+                <div className="stat-number">{animatedStats[idx]}{stat.suffix}</div>
                 <div className="stat-label">{stat.label}</div>
               </div>
             ))}
@@ -253,25 +311,25 @@ const CampaignLanding = () => {
                 <h3>Tell Us Your Requirement</h3>
                 <p>Share product details and business goals</p>
               </div>
-              <div className="process-arrow">→</div>
+                <div className="process-arrow">→</div>
               <div className="process-step">
                 <div className="step-number">2</div>
                 <h3>Supplier Identification</h3>
                 <p>We find matching verified manufacturers</p>
               </div>
-              <div className="process-arrow">→</div>
+                <div className="process-arrow">→</div>
               <div className="process-step">
                 <div className="step-number">3</div>
                 <h3>Verification & Factory Checks</h3>
                 <p>On-ground audits and quality inspection</p>
               </div>
-              <div className="process-arrow">→</div>
+                <div className="process-arrow">→</div>
               <div className="process-step">
                 <div className="step-number">4</div>
                 <h3>Negotiation Support</h3>
                 <p>Best pricing and terms assistance</p>
               </div>
-              <div className="process-arrow">→</div>
+                <div className="process-arrow">→</div>
               <div className="process-step">
                 <div className="step-number">5</div>
                 <h3>Import Execution</h3>
@@ -394,25 +452,6 @@ const CampaignLanding = () => {
           </div>
         </section>
 
-        {/* Final CTA */}
-        <section className="final-cta">
-          <div className="container">
-            <h2 className="cta-title">Ready to Start Sourcing From China?</h2>
-            <p className="cta-subtitle">
-              Get free consultation and discover how we can help you succeed in China trade
-            </p>
-            <div className="cta-buttons">
-              <a href={calendlyLink} target="_blank" rel="noopener noreferrer" className="btn-primary large">
-                Schedule Free Consultation
-              </a>
-              <a href={whatsappLink} target="_blank" rel="noopener noreferrer" className="btn-secondary large">
-                <span className="whatsapp-icon">💬</span> WhatsApp: +91 98202 98048
-              </a>
-            </div>
-            <p className="cta-trust">✓ Mumbai Office | ✓ Guangzhou Team | ✓ 500+ Verified Suppliers</p>
-          </div>
-        </section>
-
         {/* Sticky Mobile CTA */}
         <div className="mobile-sticky-cta">
           <a href={whatsappLink} target="_blank" rel="noopener noreferrer" className="mobile-cta-btn whatsapp">
@@ -428,3 +467,6 @@ const CampaignLanding = () => {
 };
 
 export default CampaignLanding;
+
+
+
