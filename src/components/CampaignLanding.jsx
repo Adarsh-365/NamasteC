@@ -452,15 +452,6 @@ const CampaignLanding = () => {
           </div>
         </section>
 
-        {/* Sticky Mobile CTA */}
-        <div className="mobile-sticky-cta">
-          <a href={whatsappLink} target="_blank" rel="noopener noreferrer" className="mobile-cta-btn whatsapp">
-            WhatsApp Consultation
-          </a>
-          <a href={calendlyLink} target="_blank" rel="noopener noreferrer" className="mobile-cta-btn calendly">
-            Book Call
-          </a>
-        </div>
       </div>
     </>
   );

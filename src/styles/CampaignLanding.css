@@ -820,46 +820,6 @@
   opacity: 0.9;
 }
 
-/* === MOBILE STICKY CTA === */
-.campaign-page .mobile-sticky-cta {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: var(--white);
-  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
-  padding: 12px 16px;
-  display: none;
-  gap: 12px;
-  z-index: 1000;
-}
-
-.campaign-page .mobile-cta-btn {
-  flex: 1;
-  padding: 14px 20px;
-  border-radius: 8px;
-  font-weight: 600;
-  font-size: 15px;
-  text-decoration: none;
-  text-align: center;
-  transition: all 0.3s ease;
-  display: block;
-}
-
-.campaign-page .mobile-cta-btn.whatsapp {
-  background: #25D366;
-  color: var(--white);
-}
-
-.campaign-page .mobile-cta-btn.calendly {
-  background: var(--primary-green);
-  color: var(--white);
-}
-
-.campaign-page .mobile-cta-btn:active {
-  transform: scale(0.98);
-}
-
 /* === RESPONSIVE DESIGN === */
 
 /* Laptop (1280px and below) */
