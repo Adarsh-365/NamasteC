@@ -1050,6 +1050,10 @@
     max-width: 100%;
   }
 
+  .campaign-page .mobile-sticky-cta {
+    display: none !important;
+  }
+
   .campaign-page .services-grid {
     grid-template-columns: 1fr;
     gap: 20px;
