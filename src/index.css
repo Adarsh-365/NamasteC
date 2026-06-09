@@ -443,7 +443,7 @@ ul { list-style: none; padding: 0; margin: 0; }
         /* --- 2. NAVBAR --- */
         .navbar {
             background: var(--white);
-            padding: 15px 5%;
+            padding: 8px 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;

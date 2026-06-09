@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
+import BrandMark from './BrandMark';
 
 export default function Navbar() {
   const navigate = useNavigate();
@@ -25,11 +26,10 @@ export default function Navbar() {
       <Link 
         to="/" 
         className="logo" 
-        style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px', textDecoration: 'none', color: 'inherit' }}
+        style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px', textDecoration: 'none', color: 'inherit', minWidth: 0 }}
         onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
       >
-        <i className="fa-solid fa-earth-asia" style={{ color: 'var(--accent-green)' }}></i>
-        <span>Namaste China</span>
+        <BrandMark height={72} />
       </Link>
 
       <ul className={`nav-links ${mobileMenuOpen ? 'mobile-open' : ''}`}>

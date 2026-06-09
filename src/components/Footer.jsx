@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import BrandMark from './BrandMark';
 
 export default function Footer() {
   const navigate = useNavigate();
@@ -206,9 +207,8 @@ export default function Footer() {
           
           {/* Company Info */}
           <div style={{ minWidth: 0 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '20px', flexWrap: 'wrap' }}>
-              <i className="fa-solid fa-earth-asia" style={{ fontSize: '2rem', color: 'var(--accent-green)' }}></i>
-              <h3 style={{ fontSize: '1.5rem', margin: 0 }}>Namaste China</h3>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px', flexWrap: 'wrap' }}>
+              <BrandMark height={64} />
             </div>
             <p style={{ fontSize: '0.95rem', lineHeight: '1.7', opacity: 0.85, marginBottom: '25px' }}>
               India's trusted gateway to verified Chinese manufacturers. We bridge borders with transparency, compliance, and on-ground support.

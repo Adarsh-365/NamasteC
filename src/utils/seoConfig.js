@@ -10,7 +10,7 @@ export const siteConfig = {
   fbAppId: '',
   organizationName: 'Namaste China',
   foundingDate: '2021',
-  logo: 'https://www.namastechina.org/logo.png',
+  logo: 'https://www.namastechina.org/images/logo.png',
   phone: '+91-9370947790',
   email: 'india.namaste1998@gmail.com',
   address: {
