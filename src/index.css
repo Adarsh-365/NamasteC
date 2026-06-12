@@ -11,7 +11,7 @@
     --china-red: #a91d22;     /* China Red Accent */
 }
 
-* {++
+* {
     box-sizing: border-box;
 }
 

@@ -138,6 +138,54 @@ export default function Home() {
         schema={homeSchema}
       />
 
+      {/* TEMPORARY CAMPAIGN BANNER */}
+      <div style={{
+        background: 'linear-gradient(135deg, #C8A24A 0%, #d4af37 100%)',
+        padding: '16px 20px',
+        textAlign: 'center',
+        position: 'relative',
+        boxShadow: '0 4px 15px rgba(0,0,0,0.1)',
+        borderBottom: '3px solid var(--primary-green)'
+      }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '20px', flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <span style={{ fontSize: '1.5rem' }}>🎯</span>
+            <p style={{ margin: 0, color: 'var(--primary-green)', fontSize: '1.05rem', fontWeight: '700' }}>
+              <strong>LIMITED OFFER:</strong> Get Your Free China Sourcing Strategy Session + Verified Supplier List
+            </p>
+          </div>
+          <button
+            onClick={() => navigate('/campaign')}
+            style={{
+              background: 'var(--primary-green)',
+              color: 'white',
+              border: 'none',
+              padding: '12px 28px',
+              borderRadius: '50px',
+              fontSize: '1rem',
+              fontWeight: '700',
+              cursor: 'pointer',
+              transition: 'all 0.3s ease',
+              boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'translateY(-2px)';
+              e.currentTarget.style.boxShadow = '0 6px 16px rgba(0,0,0,0.3)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'translateY(0)';
+              e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.2)';
+            }}
+          >
+            Claim Free Consultation
+            <i className="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+      </div>
+
       {/* 2. REPOSITIONED HERO SECTION */}
       <header className="hero" style={{ padding: '90px 20px 70px', background: 'linear-gradient(rgba(10, 61, 49, 0.95), rgba(10, 61, 49, 0.95)), url("https://images.unsplash.com/photo-1542744094-3a31f103e35f?auto=format&fit=crop&w=1600&q=80")', backgroundSize: 'cover', backgroundPosition: 'center' }}>
         <span className="gold-badge" style={{ marginBottom: '15px', display: 'inline-block' }}>India's Gateway to China Business</span>
