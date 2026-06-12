@@ -1,0 +1,52 @@
+{
+  "serverInfo": {
+    "name": "namaste-china-mcp",
+    "version": "1.0.0",
+    "description": "MCP server for Namaste China - India-China trade facilitation services"
+  },
+  "transport": {
+    "type": "http",
+    "endpoint": "https://namastechina.com/mcp"
+  },
+  "capabilities": {
+    "tools": {
+      "available": true,
+      "tools": [
+        {
+          "name": "get_services",
+          "description": "Get information about available import and sourcing services",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "service_type": {
+                "type": "string",
+                "enum": ["canton-fair", "factory-visits", "sourcing", "import-assistance", "verification", "consulting"]
+              }
+            }
+          }
+        },
+        {
+          "name": "submit_inquiry",
+          "description": "Submit a contact inquiry for services",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "name": { "type": "string" },
+              "email": { "type": "string" },
+              "phone": { "type": "string" },
+              "service": { "type": "string" },
+              "message": { "type": "string" }
+            },
+            "required": ["name", "email", "service"]
+          }
+        }
+      ]
+    },
+    "resources": {
+      "available": true
+    },
+    "prompts": {
+      "available": false
+    }
+  }
+}

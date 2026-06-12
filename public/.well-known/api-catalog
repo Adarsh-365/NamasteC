@@ -1,0 +1,25 @@
+{
+  "linkset": [
+    {
+      "anchor": "https://namastechina.com/api",
+      "service-desc": [
+        {
+          "href": "https://namastechina.com/.well-known/api-catalog",
+          "type": "application/linkset+json"
+        }
+      ],
+      "service-doc": [
+        {
+          "href": "https://namastechina.com/docs",
+          "type": "text/html"
+        }
+      ],
+      "status": [
+        {
+          "href": "https://namastechina.com/health",
+          "type": "application/health+json"
+        }
+      ]
+    }
+  ]
+}

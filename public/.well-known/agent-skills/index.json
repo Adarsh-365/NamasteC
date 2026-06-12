@@ -1,0 +1,16 @@
+{
+  "skills": [
+    {
+      "name": "namaste-china-services",
+      "type": "skill",
+      "description": "Access Namaste China's import assistance and sourcing services for India-China trade",
+      "url": "https://namastechina.com/.well-known/agent-skills/namaste-china-services/SKILL.md"
+    },
+    {
+      "name": "contact-inquiry",
+      "type": "skill",
+      "description": "Submit contact inquiries for Namaste China services including Canton Fair attendance, factory visits, and import assistance",
+      "url": "https://namastechina.com/.well-known/agent-skills/contact-inquiry/SKILL.md"
+    }
+  ]
+}
