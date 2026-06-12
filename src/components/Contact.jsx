@@ -166,6 +166,7 @@ export default function Contact() {
                     <i className="fa-solid fa-building"></i> Mumbai Office (India HQ)
                   </strong>
                   <p style={{ fontSize: '0.9rem', color: '#666', marginTop: '10px', lineHeight: '1.6' }}>
+                    <strong>Vishwa Udyam Sahayata Foundation</strong><br />
                     Office No. 123, First Floor,<br />
                     Mahaveer Market, Plot No. 1,<br />
                     Sector 18, Vashi,<br />

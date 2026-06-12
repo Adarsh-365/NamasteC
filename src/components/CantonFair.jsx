@@ -288,7 +288,7 @@ export default function CantonFair() {
           
           <div style={{ textAlign: 'center', marginBottom: '40px' }}>
             <a 
-              href="https://drive.google.com/file/d/14t3r1oSDbKU2kECaW-_CSVNBUhQmfRg3/view?usp=sharing" 
+              href="https://drive.google.com/file/d/1wUhsZ__Z5H_-2Tlk5-sTv9KAV_St2Exk/view?usp=sharing" 
               target="_blank" 
               rel="noreferrer"
               className="btn-primary" 

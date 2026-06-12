@@ -210,8 +210,11 @@ export default function Footer() {
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px', flexWrap: 'wrap' }}>
               <BrandMark height={64} />
             </div>
-            <p style={{ fontSize: '0.95rem', lineHeight: '1.7', opacity: 0.85, marginBottom: '25px' }}>
+            <p style={{ fontSize: '0.95rem', lineHeight: '1.7', opacity: 0.85, marginBottom: '15px' }}>
               India's trusted gateway to verified Chinese manufacturers. We bridge borders with transparency, compliance, and on-ground support.
+            </p>
+            <p style={{ fontSize: '0.85rem', lineHeight: '1.6', opacity: 0.75, marginBottom: '25px', fontStyle: 'italic' }}>
+              A project of <strong style={{ color: 'var(--accent-green)', fontWeight: '700' }}>Vishwa Udyam Sahayata Foundation</strong>
             </p>
             
             {/* Social Links with Enhanced Styling */}
@@ -335,6 +338,7 @@ export default function Footer() {
                 <i className="fa-solid fa-location-dot"></i> India Office
               </p>
               <p style={{ fontSize: '0.8rem', opacity: 0.85, lineHeight: '1.5', margin: 0 }}>
+                <strong>Vishwa Udyam Sahayata Foundation</strong><br />
                 Office No. 123, First Floor,<br />
                 Mahaveer Market, Plot No. 1,<br />
                 Sector 18, Vashi,<br />
@@ -388,7 +392,7 @@ export default function Footer() {
             marginBottom: '15px'
           }}>
             <p style={{ fontSize: '0.9rem', opacity: 0.7, margin: 0 }}>
-              © 2026 Namaste China. All rights reserved.
+              © 2026 Namaste China - A Project of Vishwa Udyam Sahayata Foundation. All rights reserved.
             </p>
             <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap', fontSize: '0.85rem', opacity: 0.7 }}>
               <span>Privacy Policy</span>

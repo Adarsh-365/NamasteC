@@ -94,11 +94,11 @@ export default function About() {
               <h2 className="about-section-title">Who We Are</h2>
               <div className="text-block" style={{ marginBottom: '20px' }}>
                 <p>
-                  <strong>Namaste India Group</strong> is a Mumbai-based business facilitation and trade advisory group, active since 2021. Our primary mission is to simplify cross-border sourcing, eliminate middleman markups, and provide absolute payment and quality protection for Indian companies.
+                  <strong>Namaste China</strong> is a project of <strong style={{ color: 'var(--primary-green)' }}>Vishwa Udyam Sahayata Foundation</strong>, a Mumbai-based business facilitation and trade advisory organization, active since 2021. Our primary mission is to simplify cross-border sourcing, eliminate middleman markups, and provide absolute payment and quality protection for Indian companies.
                 </p>
                 <br />
                 <p>
-                  To secure this vision, we launched our dedicated China trade project, <strong>Namaste China</strong>. Operating with active liaison desks in Mumbai, Guangzhou, and Foshan, we handle the entire sourcing cycle—from license screening to custom clearance—so you can import with complete peace of mind.
+                  Operating with active liaison desks in Mumbai, Guangzhou, and Foshan, we handle the entire sourcing cycle—from license screening to custom clearance—so you can import with complete peace of mind.
                 </p>
               </div>
 
