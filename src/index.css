@@ -33,10 +33,21 @@ ul { list-style: none; padding: 0; margin: 0; }
     display: flex;
     justify-content: space-between;
     align-items: center;
-    position: sticky;
+    position: fixed;
     top: 0;
+    left: 0;
+    right: 0;
     z-index: 1000;
     box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease-in-out;
+}
+
+.navbar-visible {
+    transform: translateY(0);
+}
+
+.navbar-hidden {
+    transform: translateY(-100%);
 }
 
 .brand a {
@@ -435,6 +446,7 @@ ul { list-style: none; padding: 0; margin: 0; }
             margin: 0 auto;
             width: 100%;
             padding: 0;
+            padding-top: 90px; /* Add padding to account for fixed navbar */
         }
 
         a { text-decoration: none; color: inherit; }
@@ -447,10 +459,21 @@ ul { list-style: none; padding: 0; margin: 0; }
             display: flex;
             justify-content: space-between;
             align-items: center;
-            position: sticky;
+            position: fixed;
             top: 0;
+            left: 0;
+            right: 0;
             z-index: 1000;
             box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .navbar-visible {
+            transform: translateY(0);
+        }
+
+        .navbar-hidden {
+            transform: translateY(-100%);
         }
 
         .logo {
@@ -1289,6 +1312,7 @@ ul { list-style: none; padding: 0; margin: 0; }
         .container {
             width: 100%;
             padding: 0;
+            padding-top: 90px; /* Add padding to account for fixed navbar */
             box-sizing: border-box;
         }
 

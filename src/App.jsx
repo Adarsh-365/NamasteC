@@ -19,6 +19,9 @@ import FactoryVisits from './components/FactoryVisits';
 import ImportAssistance from './components/ImportAssistance';
 import TradeConsulting from './components/TradeConsulting';
 import CampaignLanding from './components/CampaignLanding';
+import ChineseClasses from './components/ChineseClasses';
+import ChineseEnrollment from './components/ChineseEnrollment';
+import AdminPanel from './components/AdminPanel';
 
 import './index.css';
 
@@ -64,6 +67,15 @@ function App() {
     } else if (path === '/trade-consulting') {
       title = "China Trade Advisory & Landed Cost Consulting | Namaste China";
       description = "Analyze trade risks, draft legally sound bilateral purchase contracts, and determine complete landed pricing to India.";
+    } else if (path === '/chinese-classes') {
+      title = "Learn Chinese Language Online - Mandarin Classes | Namaste China";
+      description = "Master Mandarin Chinese through structured lessons, interactive exercises, AI conversation practice, and HSK exam preparation. Beginner-friendly with lifetime access.";
+    } else if (path === '/chinese-enrollment') {
+      title = "Enroll Now - Chinese Language Course | Namaste China";
+      description = "Enroll in our practical Chinese language course. Perfect for Canton Fair visitors and business professionals traveling to China.";
+    } else if (path === '/admin') {
+      title = "Admin Panel - Namaste China";
+      description = "Manage Chinese course enrollments and payments.";
     } else if (path === '/login') {
       title = "Log In - Namaste China B2B Platform";
     } else if (path === '/signup') {
@@ -115,6 +127,9 @@ function App() {
           <Route path="/factory-visits" element={<FactoryVisits />} />
           <Route path="/import-assistance" element={<ImportAssistance />} />
           <Route path="/trade-consulting" element={<TradeConsulting />} />
+          <Route path="/chinese-classes" element={<ChineseClasses />} />
+          <Route path="/chinese-enrollment" element={<ChineseEnrollment />} />
+          <Route path="/admin" element={<AdminPanel />} />
           <Route path="/campaign" element={<CampaignLanding />} />
           <Route 
             path="/login" 

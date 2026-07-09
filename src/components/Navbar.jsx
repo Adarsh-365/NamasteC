@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import BrandMark from './BrandMark';
 
@@ -6,6 +6,30 @@ export default function Navbar() {
   const navigate = useNavigate();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
+
+  useEffect(() => {
+    const controlNavbar = () => {
+      const currentScrollY = window.scrollY;
+
+      if (currentScrollY < lastScrollY || currentScrollY < 50) {
+        // Scrolling up or at the top
+        setIsVisible(true);
+      } else if (currentScrollY > lastScrollY && currentScrollY > 50) {
+        // Scrolling down and past 50px
+        setIsVisible(false);
+      }
+
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener('scroll', controlNavbar);
+
+    return () => {
+      window.removeEventListener('scroll', controlNavbar);
+    };
+  }, [lastScrollY]);
 
   const handlePageSelect = (path) => {
     navigate(path);
@@ -22,7 +46,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="navbar">
+    <nav className={`navbar ${isVisible ? 'navbar-visible' : 'navbar-hidden'}`}>
       <Link 
         to="/" 
         className="logo" 
@@ -114,6 +138,18 @@ export default function Navbar() {
             }}
           >
             Canton Fair 2026
+          </NavLink>
+        </li>
+        <li>
+          <NavLink 
+            to="/chinese-classes" 
+            className={({ isActive }) => isActive ? 'active' : ''}
+            onClick={() => {
+              setMobileMenuOpen(false);
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+          >
+            Chinese Classes
           </NavLink>
         </li>
         {/* <li>
