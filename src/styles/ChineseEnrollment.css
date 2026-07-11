@@ -1,16 +1,18 @@
-/* Chinese Enrollment Page - Premium Dark Theme */
+/* Chinese Enrollment Page - Green Theme Matching Home Page */
 
 .enrollment-page {
   width: 100%;
   min-height: 100vh;
-  background: #0f0f0f;
+  background: #fdfcf7;
+  margin-bottom: 0;
+  padding-bottom: 0;
 }
 
 /* Premium Hero Section */
 .premium-hero {
-  background: linear-gradient(135deg, #1A1A1A 0%, #0f0f0f 100%);
+  background: linear-gradient(135deg, #0a3d31 0%, #083429 100%);
   color: white;
-  padding: 80px 5% 100px;
+  padding: 80px 5% 60px;
   position: relative;
   overflow: hidden;
 }
@@ -22,8 +24,8 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: radial-gradient(circle at 20% 50%, rgba(211, 47, 47, 0.1) 0%, transparent 50%),
-              radial-gradient(circle at 80% 50%, rgba(255, 213, 79, 0.05) 0%, transparent 50%);
+  background: radial-gradient(circle at 20% 50%, rgba(197, 160, 89, 0.1) 0%, transparent 50%),
+              radial-gradient(circle at 80% 50%, rgba(197, 160, 89, 0.05) 0%, transparent 50%);
   pointer-events: none;
 }
 
@@ -58,7 +60,7 @@
   font-size: 2.2rem;
   font-weight: 700;
   margin-bottom: 25px;
-  color: #FFD54F;
+  color: #c5a059;
   line-height: 1.3;
 }
 
@@ -70,7 +72,7 @@
 }
 
 .subtitle strong {
-  color: #D32F2F;
+  color: #c5a059;
   font-weight: 600;
 }
 
@@ -94,8 +96,8 @@
 }
 
 .benefit-item:hover {
-  background: rgba(211, 47, 47, 0.1);
-  border-color: rgba(211, 47, 47, 0.3);
+  background: rgba(197, 160, 89, 0.1);
+  border-color: rgba(197, 160, 89, 0.3);
   transform: translateX(5px);
 }
 
@@ -119,9 +121,9 @@
 
 .info-card:hover {
   transform: translateY(-5px);
-  background: rgba(255, 213, 79, 0.1);
-  border-color: rgba(255, 213, 79, 0.3);
-  box-shadow: 0 10px 30px rgba(255, 213, 79, 0.2);
+  background: rgba(197, 160, 89, 0.1);
+  border-color: rgba(197, 160, 89, 0.3);
+  box-shadow: 0 10px 30px rgba(197, 160, 89, 0.2);
 }
 
 .info-icon {
@@ -163,7 +165,7 @@
 }
 
 .premium-cta-btn {
-  background: var(--cta-red);
+  background: #0a3d31;
   color: white;
   padding: 22px 50px;
   font-size: 1.3rem;
@@ -172,7 +174,7 @@
   border-radius: 50px;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 10px 30px rgba(229, 57, 53, 0.3);
+  box-shadow: 0 10px 30px rgba(10, 61, 49, 0.3);
   position: relative;
   overflow: hidden;
 }
@@ -194,14 +196,14 @@
 
 .premium-cta-btn:hover {
   transform: translateY(-3px);
-  box-shadow: 0 15px 40px rgba(229, 57, 53, 0.4);
-  background: #d32f2f;
+  box-shadow: 0 15px 40px rgba(10, 61, 49, 0.4);
+  background: #083429;
 }
 
 .cta-subtitle {
   margin-top: 15px;
   font-size: 1rem;
-  color: var(--accent-gold);
+  color: #c5a059;
   font-weight: 600;
 }
 
@@ -242,13 +244,13 @@
 }
 
 .learning-badge {
-  background: linear-gradient(135deg, #D32F2F, #B71C1C);
+  background: linear-gradient(135deg, #0a3d31, #083429);
   padding: 8px 20px;
   border-radius: 20px;
   font-size: 0.85rem;
   font-weight: 700;
   color: white;
-  box-shadow: 0 4px 15px rgba(211, 47, 47, 0.4);
+  box-shadow: 0 4px 15px rgba(10, 61, 49, 0.4);
 }
 
 .illustration-content {
@@ -282,8 +284,8 @@
 }
 
 .bubble {
-  background: rgba(255, 213, 79, 0.2);
-  border: 2px solid rgba(255, 213, 79, 0.4);
+  background: rgba(197, 160, 89, 0.2);
+  border: 2px solid rgba(197, 160, 89, 0.4);
   padding: 15px 20px;
   border-radius: 20px;
   display: flex;
@@ -304,7 +306,7 @@
 }
 
 .bubble:hover {
-  background: rgba(255, 213, 79, 0.3);
+  background: rgba(197, 160, 89, 0.3);
   transform: scale(1.1);
 }
 
@@ -316,7 +318,7 @@
 
 .pinyin {
   font-size: 0.85rem;
-  color: #FFD54F;
+  color: #c5a059;
 }
 
 /* Landmarks */
@@ -394,19 +396,19 @@
 
 /* Enrollment Form Section */
 .enrollment-form-section {
-  background: #0f0f0f;
-  padding: 80px 5%;
+  background: #fdfcf7;
+  padding: 60px 5%;
 }
 
 .form-container {
   max-width: 900px;
   margin: 0 auto;
-  background: rgba(255, 255, 255, 0.05);
+  background: white;
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid #e5dfd0;
   border-radius: 30px;
   padding: 50px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
 }
 
 .form-header {
@@ -416,13 +418,13 @@
 
 .form-header h2 {
   font-size: 2.5rem;
-  color: white;
+  color: #0a3d31;
   margin-bottom: 15px;
 }
 
 .form-header p {
   font-size: 1.1rem;
-  color: #b0b0b0;
+  color: #4e5f5a;
 }
 
 .enrollment-form {
@@ -440,49 +442,104 @@
 .form-group {
   display: flex;
   flex-direction: column;
+  position: relative;
 }
 
 .form-group.full-width {
   grid-column: 1 / -1;
 }
 
+.input-with-validation {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.input-with-validation input {
+  width: 100%;
+  padding-right: 45px; /* Add space for validation icon */
+}
+
+.validation-icon {
+  position: absolute;
+  right: 15px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  pointer-events: none;
+}
+
+.validation-icon.success {
+  color: #10B981;
+}
+
+.validation-icon.error {
+  color: #EF4444;
+}
+
 .form-group label {
   font-size: 1rem;
   font-weight: 600;
-  color: #e0e0e0;
+  color: #0a3d31;
   margin-bottom: 10px;
 }
 
 .form-group input,
 .form-group select,
 .form-group textarea {
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: #fdfcf7;
+  border: 1px solid #e5dfd0;
   border-radius: 12px;
   padding: 15px 20px;
   font-size: 1rem;
-  color: white;
+  color: #1b2824;
   transition: all 0.3s ease;
 }
 
 .form-group input::placeholder,
 .form-group textarea::placeholder {
-  color: #666;
+  color: #4e5f5a;
 }
 
 .form-group input:focus,
 .form-group select:focus,
 .form-group textarea:focus {
   outline: none;
-  border-color: #D32F2F;
-  background: rgba(211, 47, 47, 0.1);
-  box-shadow: 0 0 20px rgba(211, 47, 47, 0.3);
+  border-color: #0a3d31;
+  background: white;
+  box-shadow: 0 0 20px rgba(10, 61, 49, 0.1);
+}
+
+.form-group input.error {
+  border-color: #EF4444;
+  background: rgba(239, 68, 68, 0.05);
+}
+
+.form-group input.valid {
+  border-color: #10B981;
+  background: rgba(16, 185, 129, 0.05);
+}
+
+.error-message {
+  color: #EF4444;
+  font-size: 0.875rem;
+  margin-top: 6px;
+  display: block;
+  font-weight: 500;
+}
+
+.success-message {
+  color: #10B981;
+  font-size: 0.875rem;
+  margin-top: 6px;
+  display: block;
+  font-weight: 500;
 }
 
 .form-group select {
   cursor: pointer;
   appearance: none;
-  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230a3d31' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
   background-repeat: no-repeat;
   background-position: right 15px center;
   background-size: 20px;
@@ -490,8 +547,8 @@
 }
 
 .form-group select option {
-  background: #1a1a1a;
-  color: white;
+  background: white;
+  color: #1b2824;
   padding: 10px;
 }
 
@@ -506,7 +563,7 @@
 }
 
 .submit-btn {
-  background: linear-gradient(135deg, #D32F2F 0%, #B71C1C 100%);
+  background: linear-gradient(135deg, #0a3d31 0%, #083429 100%);
   color: white;
   padding: 18px 50px;
   font-size: 1.2rem;
@@ -515,12 +572,12 @@
   border-radius: 50px;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 10px 30px rgba(211, 47, 47, 0.4);
+  box-shadow: 0 10px 30px rgba(10, 61, 49, 0.4);
 }
 
 .submit-btn:hover {
   transform: translateY(-3px);
-  box-shadow: 0 15px 40px rgba(211, 47, 47, 0.6);
+  box-shadow: 0 15px 40px rgba(10, 61, 49, 0.6);
 }
 
 .submit-btn:disabled {
@@ -531,13 +588,13 @@
 
 .submit-btn:disabled:hover {
   transform: none;
-  box-shadow: 0 10px 30px rgba(211, 47, 47, 0.4);
+  box-shadow: 0 10px 30px rgba(10, 61, 49, 0.4);
 }
 
 .form-note {
   margin-top: 15px;
   font-size: 0.9rem;
-  color: #888;
+  color: #4e5f5a;
 }
 
 /* Success Modal - Modern Professional Design */
@@ -844,12 +901,187 @@
 /* Course Details Section - Below Form */
 .course-details-section {
   background: #f9f9f9;
-  padding: 60px 5%;
+  padding: 50px 5%;
 }
 
 .course-details-container {
   max-width: 1200px;
   margin: 0 auto;
+}
+
+/* Course Header */
+.course-header {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.course-title {
+  font-size: 2.5rem;
+  color: #0a3d31;
+  margin-bottom: 10px;
+  font-weight: 800;
+}
+
+.course-subtitle {
+  font-size: 1.8rem;
+  color: #c5a059;
+  margin-bottom: 20px;
+  font-weight: 700;
+}
+
+.course-description {
+  font-size: 1.1rem;
+  color: #4e5f5a;
+  line-height: 1.8;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* Course Content Wrapper */
+.course-content-wrapper {
+  background: white;
+  border-radius: 20px;
+  padding: 40px;
+  margin-bottom: 40px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+}
+
+.section-heading {
+  font-size: 1.8rem;
+  color: #0a3d31;
+  margin-bottom: 30px;
+  text-align: center;
+  font-weight: 700;
+}
+
+.course-lessons {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.lesson-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  background: #fdfcf7;
+  padding: 20px;
+  border-radius: 12px;
+  border-left: 4px solid #0a3d31;
+  transition: all 0.3s ease;
+}
+
+.lesson-item:hover {
+  transform: translateX(5px);
+  box-shadow: 0 5px 15px rgba(10, 61, 49, 0.1);
+}
+
+.lesson-number {
+  background: #0a3d31;
+  color: white;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.lesson-title {
+  font-size: 1rem;
+  color: #1b2824;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+/* Course Benefits Wrapper */
+.course-benefits-wrapper {
+  background: white;
+  border-radius: 20px;
+  padding: 40px;
+  margin-bottom: 40px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+}
+
+.benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 25px;
+}
+
+.benefit-card {
+  background: #fdfcf7;
+  padding: 30px 20px;
+  border-radius: 15px;
+  text-align: center;
+  border: 2px solid #e5dfd0;
+  transition: all 0.3s ease;
+}
+
+.benefit-card:hover {
+  transform: translateY(-5px);
+  border-color: #c5a059;
+  box-shadow: 0 10px 25px rgba(197, 160, 89, 0.2);
+}
+
+.benefit-icon {
+  font-size: 3rem;
+  margin-bottom: 15px;
+}
+
+.benefit-text {
+  font-size: 1.05rem;
+  color: #1b2824;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+/* Course Fee Box */
+.course-fee-box {
+  background: linear-gradient(135deg, #0a3d31 0%, #083429 100%);
+  border-radius: 20px;
+  padding: 50px 40px;
+  text-align: center;
+  box-shadow: 0 10px 40px rgba(10, 61, 49, 0.3);
+}
+
+.fee-content h3 {
+  font-size: 2.2rem;
+  color: #c5a059;
+  margin-bottom: 20px;
+  font-weight: 800;
+}
+
+.fee-content p {
+  font-size: 1.1rem;
+  color: #e0e0e0;
+  line-height: 1.8;
+  margin-bottom: 30px;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.enroll-now-btn {
+  background: #c5a059;
+  color: #0a3d31;
+  padding: 18px 50px;
+  font-size: 1.3rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 30px rgba(197, 160, 89, 0.4);
+}
+
+.enroll-now-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 40px rgba(197, 160, 89, 0.6);
+  background: #d4af37;
 }
 
 .course-details-section .info-cards {
@@ -859,61 +1091,11 @@
   margin-bottom: 50px;
 }
 
-.course-details-section .info-card {
-  background: white;
-  border: 2px solid #e0e0e0;
-  border-radius: 15px;
-  padding: 30px 20px;
-  text-align: center;
-  transition: all 0.3s ease;
-}
-
-.course-details-section .info-card:hover {
-  transform: translateY(-5px);
-  border-color: #D32F2F;
-  box-shadow: 0 10px 30px rgba(211, 47, 47, 0.2);
-}
-
-.course-details-section .info-icon {
-  font-size: 3rem;
-  margin-bottom: 15px;
-}
-
-.course-details-section .info-text {
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: #333;
-}
-
-.course-details-section .feature-bullets {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 25px;
-  max-width: 1000px;
-  margin: 0 auto;
-}
-
-.course-details-section .bullet-item {
-  background: white;
-  padding: 25px;
-  border-radius: 12px;
-  font-size: 1rem;
-  color: #333;
-  line-height: 1.6;
-  border-left: 4px solid #D32F2F;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-  transition: all 0.3s ease;
-}
-
-.course-details-section .bullet-item:hover {
-  transform: translateX(5px);
-  box-shadow: 0 5px 20px rgba(211, 47, 47, 0.15);
-}
-
 /* Trust Section */
 .trust-section {
-  background: #1A1A1A;
-  padding: 80px 5%;
+  background: #0a3d31;
+  padding: 50px 5%;
+  margin-bottom: 0;
 }
 
 .trust-container {
@@ -945,9 +1127,9 @@
 
 .trust-card:hover {
   transform: translateY(-10px);
-  background: rgba(211, 47, 47, 0.1);
-  border-color: rgba(211, 47, 47, 0.3);
-  box-shadow: 0 15px 40px rgba(211, 47, 47, 0.3);
+  background: rgba(197, 160, 89, 0.1);
+  border-color: rgba(197, 160, 89, 0.3);
+  box-shadow: 0 15px 40px rgba(197, 160, 89, 0.3);
 }
 
 .trust-icon {
@@ -1011,6 +1193,11 @@
     grid-template-columns: 1fr 1fr;
   }
 
+  .trust-section {
+    padding: 40px 5%;
+    margin-bottom: 0;
+  }
+
   .speech-bubbles {
     flex-direction: column;
     align-items: center;
@@ -1024,8 +1211,42 @@
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .course-details-section .feature-bullets {
+  .course-lessons {
     grid-template-columns: 1fr;
+  }
+
+  .benefits-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .course-title {
+    font-size: 2rem;
+  }
+
+  .course-subtitle {
+    font-size: 1.4rem;
+  }
+
+  .course-description {
+    font-size: 1rem;
+  }
+
+  .course-content-wrapper,
+  .course-benefits-wrapper {
+    padding: 30px 20px;
+  }
+
+  .course-fee-box {
+    padding: 40px 25px;
+  }
+
+  .fee-content h3 {
+    font-size: 1.8rem;
+  }
+
+  .enroll-now-btn {
+    padding: 16px 35px;
+    font-size: 1.1rem;
   }
 
   .success-modal {
@@ -1091,7 +1312,7 @@
 
 @media (max-width: 480px) {
   .premium-hero {
-    padding: 60px 5% 80px;
+    padding: 60px 5% 40px;
   }
 
   .main-headline {
@@ -1121,6 +1342,65 @@
 
   .illustration-card {
     padding: 25px;
+  }
+
+  .course-title {
+    font-size: 1.6rem;
+  }
+
+  .course-subtitle {
+    font-size: 1.2rem;
+  }
+
+  .course-description {
+    font-size: 0.95rem;
+  }
+
+  .section-heading {
+    font-size: 1.5rem;
+  }
+
+  .lesson-item {
+    padding: 15px;
+  }
+
+  .lesson-number {
+    width: 35px;
+    height: 35px;
+    font-size: 1rem;
+  }
+
+  .lesson-title {
+    font-size: 0.95rem;
+  }
+
+  .benefit-card {
+    padding: 25px 15px;
+  }
+
+  .benefit-icon {
+    font-size: 2.5rem;
+  }
+
+  .benefit-text {
+    font-size: 1rem;
+  }
+
+  .course-fee-box {
+    padding: 35px 20px;
+  }
+
+  .fee-content h3 {
+    font-size: 1.6rem;
+  }
+
+  .fee-content p {
+    font-size: 1rem;
+  }
+
+  .enroll-now-btn {
+    padding: 15px 30px;
+    font-size: 1rem;
   }
 
   .success-modal {

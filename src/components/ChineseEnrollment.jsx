@@ -20,9 +20,67 @@ export default function ChineseEnrollment() {
   const [isProcessing, setIsProcessing] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [paymentDetails, setPaymentDetails] = useState(null);
+  const [emailError, setEmailError] = useState('');
+  const [mobileError, setMobileError] = useState('');
+
+  // Mobile validation function
+  const validateMobile = (mobile) => {
+    // Remove all non-digit characters
+    const digitsOnly = mobile.replace(/\D/g, '');
+    
+    // Check if exactly 10 digits
+    if (digitsOnly.length === 0) {
+      return '';
+    }
+    
+    if (digitsOnly.length !== 10) {
+      return 'Mobile number must be exactly 10 digits';
+    }
+    
+    // Check if starts with valid digit (6-9 for Indian numbers)
+    if (!/^[6-9]/.test(digitsOnly)) {
+      return 'Mobile number must start with 6, 7, 8, or 9';
+    }
+    
+    return '';
+  };
+
+  // Email validation function
+  const validateEmail = (email) => {
+    // Basic email format check
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return 'Please enter a valid email address';
+    }
+
+    // Check for Gmail or common email providers
+    const validDomains = ['gmail.com', 'yahoo.com', 'outlook.com', 'hotmail.com', 'icloud.com', 'protonmail.com'];
+    const domain = email.split('@')[1]?.toLowerCase();
+    
+    if (!validDomains.includes(domain)) {
+      return 'Please use a valid email address (Gmail, Yahoo, Outlook, etc.)';
+    }
+
+    return '';
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    // Validate email before proceeding
+    const emailValidationError = validateEmail(formData.email);
+    if (emailValidationError) {
+      setEmailError(emailValidationError);
+      return;
+    }
+    
+    // Validate mobile before proceeding
+    const mobileValidationError = validateMobile(formData.mobile);
+    if (mobileValidationError) {
+      setMobileError(mobileValidationError);
+      return;
+    }
+    
     setIsProcessing(true);
 
     try {
@@ -140,10 +198,42 @@ export default function ChineseEnrollment() {
   };
 
   const handleChange = (e) => {
+    const { name, value } = e.target;
+    
+    // For mobile field, only allow digits and limit to 10
+    if (name === 'mobile') {
+      const digitsOnly = value.replace(/\D/g, '');
+      if (digitsOnly.length <= 10) {
+        setFormData({
+          ...formData,
+          [name]: digitsOnly
+        });
+        
+        // Validate mobile in real-time
+        if (digitsOnly.trim() === '') {
+          setMobileError('');
+        } else {
+          const error = validateMobile(digitsOnly);
+          setMobileError(error);
+        }
+      }
+      return;
+    }
+    
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [name]: value
     });
+
+    // Validate email in real-time as user types
+    if (name === 'email') {
+      if (value.trim() === '') {
+        setEmailError('');
+      } else {
+        const error = validateEmail(value);
+        setEmailError(error);
+      }
+    }
   };
 
   return (
@@ -348,30 +438,49 @@ export default function ChineseEnrollment() {
 
                 <div className="form-group">
                   <label htmlFor="mobile">Mobile Number *</label>
-                  <input
-                    type="tel"
-                    id="mobile"
-                    name="mobile"
-                    value={formData.mobile}
-                    onChange={handleChange}
-                    required
-                    placeholder="+91 XXXXXXXXXX"
-                  />
+                  <div className="input-with-validation">
+                    <input
+                      type="tel"
+                      id="mobile"
+                      name="mobile"
+                      value={formData.mobile}
+                      onChange={handleChange}
+                      required
+                      placeholder="10 digit mobile number"
+                      maxLength="10"
+                      className={mobileError ? 'error' : (formData.mobile && !mobileError && formData.mobile.length === 10 ? 'valid' : '')}
+                    />
+                    {formData.mobile && !mobileError && formData.mobile.length === 10 && <span className="validation-icon success">✓</span>}
+                    {mobileError && <span className="validation-icon error">✕</span>}
+                  </div>
+                  {mobileError && <span className="error-message">{mobileError}</span>}
+                  {formData.mobile && !mobileError && formData.mobile.length === 10 && (
+                    <span className="success-message">Valid mobile number</span>
+                  )}
                 </div>
               </div>
 
               <div className="form-row">
                 <div className="form-group">
                   <label htmlFor="email">Email Address *</label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                    placeholder="your@email.com"
-                  />
+                  <div className="input-with-validation">
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      required
+                      placeholder="your@gmail.com"
+                      className={emailError ? 'error' : (formData.email && !emailError ? 'valid' : '')}
+                    />
+                    {formData.email && !emailError && <span className="validation-icon success">✓</span>}
+                    {emailError && <span className="validation-icon error">✕</span>}
+                  </div>
+                  {emailError && <span className="error-message">{emailError}</span>}
+                  {formData.email && !emailError && (
+                    <span className="success-message">Valid email address</span>
+                  )}
                 </div>
 
                 <div className="form-group">
@@ -460,6 +569,15 @@ export default function ChineseEnrollment() {
         {/* Course Details Section - Below Form */}
         <section className="course-details-section">
           <div className="course-details-container">
+            {/* Course Header */}
+            <div className="course-header">
+              <h2 className="course-title">Basic Chinese Course – Online</h2>
+              <p className="course-subtitle">Learn Chinese from Scratch – Only ₹999</p>
+              <p className="course-description">
+                No prior knowledge required. This course is perfect for beginners, students, travelers, business owners, and anyone planning to visit China or the Canton Fair.
+              </p>
+            </div>
+
             {/* Information Cards */}
             <div className="info-cards">
               <div className="info-card">
@@ -468,7 +586,7 @@ export default function ChineseEnrollment() {
               </div>
               <div className="info-card">
                 <div className="info-icon">⏱</div>
-                <div className="info-text">30+ Hours of Learning</div>
+                <div className="info-text">10 Video Lessons</div>
               </div>
               <div className="info-card">
                 <div className="info-icon">💻</div>
@@ -480,25 +598,91 @@ export default function ChineseEnrollment() {
               </div>
             </div>
 
-            {/* Feature Bullets */}
-            <div className="feature-bullets">
-              <div className="bullet-item">
-                • Learn practical Chinese phrases used in airports, hotels, taxis, restaurants, and shopping.
+            {/* Course Content */}
+            <div className="course-content-wrapper">
+              <h3 className="section-heading">Course Content (10 Video Lessons)</h3>
+              <div className="course-lessons">
+                <div className="lesson-item">
+                  <span className="lesson-number">1</span>
+                  <span className="lesson-title">Introduction to the Chinese Language</span>
+                </div>
+                <div className="lesson-item">
+                  <span className="lesson-number">2</span>
+                  <span className="lesson-title">Chinese Pronunciation (Pinyin)</span>
+                </div>
+                <div className="lesson-item">
+                  <span className="lesson-number">3</span>
+                  <span className="lesson-title">Greetings and Daily Expressions</span>
+                </div>
+                <div className="lesson-item">
+                  <span className="lesson-number">4</span>
+                  <span className="lesson-title">Numbers, Days, Dates, and Time</span>
+                </div>
+                <div className="lesson-item">
+                  <span className="lesson-number">5</span>
+                  <span className="lesson-title">Family and Common Vocabulary</span>
+                </div>
+                <div className="lesson-item">
+                  <span className="lesson-number">6</span>
+                  <span className="lesson-title">Asking Simple Questions</span>
+                </div>
+                <div className="lesson-item">
+                  <span className="lesson-number">7</span>
+                  <span className="lesson-title">Shopping and Money</span>
+                </div>
+                <div className="lesson-item">
+                  <span className="lesson-number">8</span>
+                  <span className="lesson-title">Food, Restaurant, and Travel Phrases</span>
+                </div>
+                <div className="lesson-item">
+                  <span className="lesson-number">9</span>
+                  <span className="lesson-title">Basic Business and Canton Fair Vocabulary</span>
+                </div>
+                <div className="lesson-item">
+                  <span className="lesson-number">10</span>
+                  <span className="lesson-title">Everyday Conversations and Practice</span>
+                </div>
               </div>
-              <div className="bullet-item">
-                • Communicate confidently with suppliers, manufacturers, and business partners during the Canton Fair.
+            </div>
+
+            {/* What You'll Get */}
+            <div className="course-benefits-wrapper">
+              <h3 className="section-heading">You'll Get</h3>
+              <div className="benefits-grid">
+                <div className="benefit-card">
+                  <div className="benefit-icon">🎥</div>
+                  <div className="benefit-text">10 Recorded Video Lessons</div>
+                </div>
+                <div className="benefit-card">
+                  <div className="benefit-icon">♾️</div>
+                  <div className="benefit-text">Lifetime Access</div>
+                </div>
+                <div className="benefit-card">
+                  <div className="benefit-icon">📄</div>
+                  <div className="benefit-text">PDF Notes</div>
+                </div>
+                <div className="benefit-card">
+                  <div className="benefit-icon">✍️</div>
+                  <div className="benefit-text">Practice Exercises</div>
+                </div>
+                <div className="benefit-card">
+                  <div className="benefit-icon">🏆</div>
+                  <div className="benefit-text">Course Completion Certificate</div>
+                </div>
               </div>
-              <div className="bullet-item">
-                • Master correct Mandarin pronunciation using Pinyin and native audio.
-              </div>
-              <div className="bullet-item">
-                • Build real conversation skills through interactive speaking practice and quizzes.
-              </div>
-              <div className="bullet-item">
-                • Access downloadable vocabulary sheets, flashcards, and lesson notes.
-              </div>
-              <div className="bullet-item">
-                • Continue learning anytime with lifetime access across all devices.
+            </div>
+
+            {/* Course Fee Highlight */}
+            <div className="course-fee-box">
+              <div className="fee-content">
+                <h3>Course Fee: ₹999 Only</h3>
+                <p>Start speaking basic Chinese with confidence and build a strong foundation for travel, business, and everyday communication.</p>
+                <button 
+                  className="enroll-now-btn"
+                  onClick={() => document.getElementById('enrollment-form').scrollIntoView({ behavior: 'smooth' })}
+                >
+                  Enroll Now for ₹999
+                </button>
               </div>
             </div>
           </div>

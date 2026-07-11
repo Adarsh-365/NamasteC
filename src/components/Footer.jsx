@@ -37,7 +37,11 @@ export default function Footer() {
           }
           
           footer {
-            padding: 50px 5% 0 !important;
+            padding: 0 5% 0 !important;
+          }
+          
+          footer > div {
+            padding-top: 50px !important;
           }
         }
         
@@ -48,11 +52,15 @@ export default function Footer() {
           }
           
           footer {
-            padding: 40px 5% 0 !important;
+            padding: 0 5% 0 !important;
+          }
+          
+          footer > div {
+            padding-top: 40px !important;
           }
           
           .pre-footer-cta {
-            padding: 40px 5% !important;
+            padding: 40px 5% 40px !important;
           }
           
           .pre-footer-cta h2 {
@@ -86,8 +94,9 @@ export default function Footer() {
       {/* Pre-Footer CTA Section */}
       <section className="pre-footer-cta" style={{
         background: 'linear-gradient(135deg, var(--primary-green) 0%, #0a5a47 100%)',
-        padding: '60px 5%',
-        marginTop: '80px',
+        padding: '60px 5% 60px',
+        marginTop: '0',
+        marginBottom: '0',
         position: 'relative',
         overflow: 'hidden'
       }}>
@@ -196,8 +205,8 @@ export default function Footer() {
       </section>
 
       {/* Main Footer */}
-      <footer style={{ background: 'linear-gradient(135deg, #0a3d31 0%, #0d4d3e 100%)', color: 'white', padding: '60px 5% 0' }}>
-        <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
+      <footer style={{ background: 'linear-gradient(135deg, #0a3d31 0%, #0d4d3e 100%)', color: 'white', padding: '0 5% 0' }}>
+        <div style={{ maxWidth: '1400px', margin: '0 auto', paddingTop: '60px' }}>
           <div style={{ 
             display: 'grid', 
             gridTemplateColumns: 'repeat(4, 1fr)', 
