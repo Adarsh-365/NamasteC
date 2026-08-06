@@ -22,6 +22,7 @@ import CampaignLanding from './components/CampaignLanding';
 import ChineseClasses from './components/ChineseClasses';
 import ChineseEnrollment from './components/ChineseEnrollment';
 import AdminPanel from './components/AdminPanel';
+import NaviMumbaiSummit from './components/event';
 
 import './index.css';
 
@@ -76,6 +77,9 @@ function App() {
     } else if (path === '/admin') {
       title = "Admin Panel - Namaste China";
       description = "Manage Chinese course enrollments and payments.";
+    } else if (path === '/navi-mumbai-summit') {
+      title = "Navi Mumbai Growth Summit 2026 | Business Networking Event";
+      description = "Join the premier business summit on September 12, 2026. Discover government opportunities, global trade insights, and network with entrepreneurs, MSMEs, and industry experts.";
     } else if (path === '/login') {
       title = "Log In - Namaste China B2B Platform";
     } else if (path === '/signup') {
@@ -131,6 +135,7 @@ function App() {
           <Route path="/chinese-enrollment" element={<ChineseEnrollment />} />
           <Route path="/admin" element={<AdminPanel />} />
           <Route path="/campaign" element={<CampaignLanding />} />
+          <Route path="/navi-mumbai-summit" element={<NaviMumbaiSummit />} />
           <Route 
             path="/login" 
             element={

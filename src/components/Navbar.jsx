@@ -152,6 +152,18 @@ export default function Navbar() {
             Chinese Classes
           </NavLink>
         </li>
+        <li>
+          <NavLink 
+            to="/navi-mumbai-summit" 
+            className={({ isActive }) => isActive ? 'active' : ''}
+            onClick={() => {
+              setMobileMenuOpen(false);
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+          >
+            Mumbai Summit
+          </NavLink>
+        </li>
         {/* <li>
           <NavLink 
             to="/contact" 
