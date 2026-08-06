@@ -275,8 +275,7 @@ export default function NaviMumbaiSummit() {
                 <div key={`${currentPhotoSet}-${idx}`} className="event-photo-card">
                   <img 
                     src={url} 
-                    alt={`Event moment ${idx + 1}`} 
-                    loading="lazy"
+                    alt={`Event moment ${idx + 1}`}
                   />
                 </div>
               ))}
@@ -291,6 +290,13 @@ export default function NaviMumbaiSummit() {
                   onClick={() => setCurrentPhotoSet(idx)}
                   aria-label={`View photo set ${idx + 1}`}
                 />
+              ))}
+            </div>
+
+            {/* Preload all images */}
+            <div style={{ display: 'none' }}>
+              {photoArray.map((url, idx) => (
+                <img key={idx} src={url} alt="" />
               ))}
             </div>
           </div>
