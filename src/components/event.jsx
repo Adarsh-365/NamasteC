@@ -80,10 +80,11 @@ export default function NaviMumbaiSummit() {
   ];
 
   const faqs = [
-    { q: 'Where is the venue?', a: 'The summit will take place at a premier 5-star venue in Navi Mumbai. Exact venue map, address, and parking instructions will be emailed to registered delegates 7 days prior to the event.' },
-    { q: 'What does my pass include?', a: 'Pass benefits vary by tier. Silver Pass includes full-day access, standard sessions, morning/afternoon tea, and networking pass. Gold Pass adds lunch pass, main-stage access, priority seating, and enhanced networking opportunities.' },
-    { q: 'Will I receive confirmation?', a: 'Yes! Instant confirmation with digital QR ticket and invoice will be sent via email and WhatsApp immediately after payment.' },
-    { q: 'Can I transfer or cancel my pass?', a: 'Passes are non-refundable but fully transferable up to 48 hours before the event. Contact support with attendee details to initiate a transfer.' }
+    { q: 'Where will the summit take place?', a: 'The summit will take place in Navi Mumbai. The confirmed venue address, map, parking details and nearby transport options will be displayed once finalized.' },
+    { q: 'What does my delegate pass include?', a: 'Every package includes summit access and the benefits listed under the selected delegate category. Gold delegates receive additional lunch, seating and networking benefits.' },
+    { q: 'Will I receive confirmation after payment?', a: 'Yes. Delegates will receive confirmation through email and WhatsApp immediately after successful payment.' },
+    { q: 'Can I transfer or cancel my pass?', a: 'The final cancellation, transfer and refund policy will be displayed before checkout.' },
+    { q: 'Will I receive an invoice?', a: 'A payment receipt will be issued automatically. GST invoice availability and applicable taxes will be clearly mentioned on the checkout page.' }
   ];
 
   return (
@@ -134,6 +135,22 @@ export default function NaviMumbaiSummit() {
               <div className="hero-image-section">
                 <img src={eventMainImg} alt="Navi Mumbai Growth Summit 2026" className="hero-event-image" />
               </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Event Highlights Grid - 2x2 */}
+        <section className="event-highlights-grid-section">
+          <div className="event-container">
+            <div className="highlights-grid-2x2">
+              {photoArray.slice(0, 4).map((url, idx) => (
+                <div key={idx} className="highlight-photo-card">
+                  <img 
+                    src={url} 
+                    alt={`Summit highlight ${idx + 1}`}
+                  />
+                </div>
+              ))}
             </div>
           </div>
         </section>
@@ -333,7 +350,7 @@ export default function NaviMumbaiSummit() {
                     className={`faq-question ${openFaq === idx ? 'active' : ''}`}
                     onClick={() => toggleFaq(idx)}
                   >
-                    {faq.q}
+                    <span className="faq-question-text">{faq.q}</span>
                     <span className="faq-icon">{openFaq === idx ? '−' : '+'}</span>
                   </button>
                   {openFaq === idx && (
