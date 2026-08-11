@@ -6,18 +6,30 @@ import eventMainImg from '../assets/event_main.JPG';
 // Import all event photos
 const eventPhotos = import.meta.glob('../assets/images/*.JPG', { eager: true, import: 'default' });
 
+const API_BASE_URL = 'https://api.namastechina.org';
+
 export default function NaviMumbaiSummit() {
   const [openFaq, setOpenFaq] = useState(null);
   const [bookingPass, setBookingPass] = useState(null);
+  const [passType, setPassType] = useState(''); // 'silver' or 'gold'
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
-    mobile: ''
+    mobile: '',
+    company_name: '',
+    city: '',
+    ton_over: '',
+    nature_of_business: '',
+    prod_serv_details: '',
+    challenges: ''
   });
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [paymentDetails, setPaymentDetails] = useState(null);
   const [currentPhotoSet, setCurrentPhotoSet] = useState(0);
 
   // Convert photo object to array
-  const photoArray = Object.entries(eventPhotos).map(([path, url]) => url);
+  const photoArray = Object.values(eventPhotos);
   const photosPerSet = 6;
   const totalSets = Math.ceil(photoArray.length / photosPerSet);
 
@@ -44,13 +56,192 @@ export default function NaviMumbaiSummit() {
   };
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    
+    // For mobile field, only allow digits and limit to 10
+    if (name === 'mobile') {
+      const digitsOnly = value.replace(/\D/g, '');
+      if (digitsOnly.length <= 10) {
+        setFormData({
+          ...formData,
+          [name]: digitsOnly
+        });
+      }
+      return;
+    }
+    
+    setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert('Redirecting to payment gateway...');
-    setBookingPass(null);
+    setIsProcessing(true);
+
+    // Capture these values at the start to ensure they're available in all scopes
+    const currentPassType = passType;
+    const guestType = passType === 'silver' ? 'Silver' : 'Gold';
+    const paymentValue = passType === 'silver' ? 1000 : 3150;
+
+    // Debug: Log the values being sent
+    console.log('Payment Details:', {
+      currentPassType,
+      guestType,
+      paymentValue,
+      formData
+    });
+
+    try {
+      // Determine which API endpoint to use based on pass type
+      const apiEndpoint = currentPassType === 'silver' 
+        ? `${API_BASE_URL}/silvebook`
+        : `${API_BASE_URL}/goldbook`;
+
+      // Determine amount based on pass type
+      const amount = currentPassType === 'silver' ? 100000 : 315000; // in paise (₹1000 or ₹3150)
+
+      // Step 1: Create order on backend
+      const orderResponse = await fetch(apiEndpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          amount: amount,
+          currency: 'INR',
+          guestType: guestType,
+          paymentValue: paymentValue
+        })
+      });
+
+      if (!orderResponse.ok) {
+        throw new Error('Failed to create order');
+      }
+
+      const orderData = await orderResponse.json();
+
+      // Step 2: Open Razorpay checkout
+      const options = {
+        key: orderData.key,
+        amount: orderData.amount,
+        currency: orderData.currency,
+        name: 'Namaste China',
+        description: `${guestType} Delegate Pass - Navi Mumbai Growth Summit 2026`,
+        order_id: orderData.order_id,
+        prefill: {
+          name: formData.fullName,
+          email: formData.email,
+          contact: formData.mobile,
+        },
+        notes: {
+          company_name: formData.company_name,
+          city: formData.city,
+          ton_over: formData.ton_over,
+          nature_of_business: formData.nature_of_business,
+          prod_serv_details: formData.prod_serv_details,
+          challenges: formData.challenges,
+          pass_type: currentPassType,
+          guest_type: guestType,
+          payment_value: paymentValue
+        },
+        theme: {
+          color: '#D32F2F',
+        },
+        handler: async function (response) {
+          // Step 3: Verify payment on backend
+          try {
+            // Debug: Log what we're sending to verify-payment-book
+            console.log('Sending to verify-payment-book:', {
+              razorpay_order_id: response.razorpay_order_id,
+              razorpay_payment_id: response.razorpay_payment_id,
+              formData: {
+                ...formData,
+                pass_type: currentPassType,
+                guestType: guestType,
+                paymentValue: paymentValue
+              }
+            });
+
+            const verifyResponse = await fetch(`${API_BASE_URL}/verify-payment-book`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_signature: response.razorpay_signature,
+                formData: {
+                  ...formData,
+                  pass_type: currentPassType,
+                  guestType: guestType,
+                  paymentValue: paymentValue
+                },
+              }),
+            });
+
+            const verifyData = await verifyResponse.json();
+
+            if (verifyData.success) {
+              // Store payment details for modal
+              setPaymentDetails({
+                paymentId: verifyData.payment_id,
+                orderId: verifyData.order_id,
+                participantName: formData.fullName,
+                passType: `${guestType} Delegate`,
+              });
+              
+              // Show success modal
+              setShowSuccessModal(true);
+              
+              // Send confirmation via WhatsApp
+              const passPrice = `₹${paymentValue.toLocaleString('en-IN')}`;
+              const text = `🎉 Payment Successful!\n\nPayment ID: ${verifyData.payment_id}\nOrder ID: ${verifyData.order_id}\n\nPass Type: ${guestType} Delegate (${passPrice})\n\nDelegate Details:\nName: ${formData.fullName}\nMobile: ${formData.mobile}\nEmail: ${formData.email}\nCompany: ${formData.company_name}\nCity: ${formData.city}\nTurnover: ${formData.ton_over}\nBusiness Nature: ${formData.nature_of_business}\nProducts/Services: ${formData.prod_serv_details}\nChallenges: ${formData.challenges}`;
+              
+              // Open WhatsApp after a short delay
+              setTimeout(() => {
+                window.open(`https://wa.me/919370947790?text=${encodeURIComponent(text)}`, '_blank');
+              }, 2000);
+              
+              // Reset form
+              setFormData({
+                fullName: '',
+                email: '',
+                mobile: '',
+                company_name: '',
+                city: '',
+                ton_over: '',
+                nature_of_business: '',
+                prod_serv_details: '',
+                challenges: ''
+              });
+              
+              // Close modal
+              setBookingPass(null);
+            } else {
+              alert('Payment verification failed. Please contact support.');
+            }
+          } catch (error) {
+            console.error('Verification error:', error);
+            alert('Payment verification failed. Please contact support with your payment details.');
+          } finally {
+            setIsProcessing(false);
+          }
+        },
+        modal: {
+          ondismiss: function () {
+            setIsProcessing(false);
+            alert('Payment cancelled. Please try again when ready.');
+          },
+        },
+      };
+
+      const razorpay = new window.Razorpay(options);
+      razorpay.open();
+    } catch (error) {
+      console.error('Payment error:', error);
+      alert('Failed to initiate payment. Please try again.');
+      setIsProcessing(false);
+    }
   };
 
   const agendaItems = [
@@ -234,7 +425,10 @@ export default function NaviMumbaiSummit() {
                     <li>✓ Afternoon tea</li>
                   </ul>
                 </div>
-                <button onClick={() => setBookingPass('Silver Pass (INR 1,000)')} className="btn-book-pass">
+                <button onClick={() => {
+                  setBookingPass('Silver Pass (INR 1,000)');
+                  setPassType('silver');
+                }} className="btn-book-pass">
                   BOOK THIS PASS
                 </button>
               </div>
@@ -256,7 +450,10 @@ export default function NaviMumbaiSummit() {
                     <li>✓ Priority seating + enhanced networking</li>
                   </ul>
                 </div>
-                <button onClick={() => setBookingPass('Gold Pass (INR 3,150)')} className="btn-book-pass gold">
+                <button onClick={() => {
+                  setBookingPass('Gold Pass (INR 3,150)');
+                  setPassType('gold');
+                }} className="btn-book-pass gold">
                   BOOK THIS PASS
                 </button>
               </div>
@@ -329,7 +526,6 @@ export default function NaviMumbaiSummit() {
               <iframe
                 src="https://www.youtube.com/embed/hSLZkM2AzJY"
                 title="Navi Mumbai Summit Highlights"
-                frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
                 className="youtube-video"
@@ -374,35 +570,207 @@ export default function NaviMumbaiSummit() {
               <p className="modal-subtitle">You have selected: <strong>{bookingPass}</strong></p>
               
               <form onSubmit={handleSubmit}>
-                <input
-                  type="text"
-                  name="fullName"
-                  placeholder="Full name"
-                  value={formData.fullName}
-                  onChange={handleChange}
-                  required
-                />
-                <input
-                  type="email"
-                  name="email"
-                  placeholder="Email address"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                />
-                <input
-                  type="tel"
-                  name="mobile"
-                  placeholder="Mobile number"
-                  value={formData.mobile}
-                  onChange={handleChange}
-                  required
-                />
+                {/* Row 1 - 2 columns */}
+                <div className="form-row-two-col">
+                  <div className="form-group-modal">
+                    <label htmlFor="fullName">Full Name *</label>
+                    <input
+                      type="text"
+                      id="fullName"
+                      name="fullName"
+                      placeholder="Enter your full name"
+                      value={formData.fullName}
+                      onChange={handleChange}
+                      required
+                    />
+                  </div>
+                  <div className="form-group-modal">
+                    <label htmlFor="mobile">Mobile Number *</label>
+                    <input
+                      type="tel"
+                      id="mobile"
+                      name="mobile"
+                      placeholder="10 digit mobile number"
+                      value={formData.mobile}
+                      onChange={handleChange}
+                      required
+                      maxLength="10"
+                    />
+                  </div>
+                </div>
+
+                {/* Row 2 - 2 columns */}
+                <div className="form-row-two-col">
+                  <div className="form-group-modal">
+                    <label htmlFor="email">Email Address *</label>
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      placeholder="your@email.com"
+                      value={formData.email}
+                      onChange={handleChange}
+                      required
+                    />
+                  </div>
+                  <div className="form-group-modal">
+                    <label htmlFor="company_name">Company Name *</label>
+                    <input
+                      type="text"
+                      id="company_name"
+                      name="company_name"
+                      placeholder="Your company name"
+                      value={formData.company_name}
+                      onChange={handleChange}
+                      required
+                    />
+                  </div>
+                </div>
+
+                {/* Row 3 - 2 columns */}
+                <div className="form-row-two-col">
+                  <div className="form-group-modal">
+                    <label htmlFor="city">City *</label>
+                    <input
+                      type="text"
+                      id="city"
+                      name="city"
+                      placeholder="Your city"
+                      value={formData.city}
+                      onChange={handleChange}
+                      required
+                    />
+                  </div>
+                  <div className="form-group-modal">
+                    <label htmlFor="ton_over">Company Turnover *</label>
+                    <input
+                      type="text"
+                      id="ton_over"
+                      name="ton_over"
+                      placeholder="Annual turnover"
+                      value={formData.ton_over}
+                      onChange={handleChange}
+                      required
+                    />
+                  </div>
+                </div>
+
+                {/* Row 4 - 2 columns */}
+                <div className="form-row-two-col">
+                  <div className="form-group-modal">
+                    <label htmlFor="nature_of_business">Nature of Business *</label>
+                    <input
+                      type="text"
+                      id="nature_of_business"
+                      name="nature_of_business"
+                      placeholder="E.g., Manufacturing, Trading"
+                      value={formData.nature_of_business}
+                      onChange={handleChange}
+                      required
+                    />
+                  </div>
+                  <div className="form-group-modal">
+                    <label htmlFor="prod_serv_details">Product / Service Details *</label>
+                    <input
+                      type="text"
+                      id="prod_serv_details"
+                      name="prod_serv_details"
+                      placeholder="What do you offer?"
+                      value={formData.prod_serv_details}
+                      onChange={handleChange}
+                      required
+                    />
+                  </div>
+                </div>
+
+                {/* Row 5 - Full width */}
+                <div className="form-group-modal full-width">
+                  <label htmlFor="challenges">Challenges Faced Doing Business *</label>
+                  <textarea
+                    id="challenges"
+                    name="challenges"
+                    placeholder="Tell us about the challenges you face..."
+                    value={formData.challenges}
+                    onChange={handleChange}
+                    required
+                    rows="3"
+                  />
+                </div>
                 
-                <button type="submit" className="btn-submit-modal">
-                  PROCEED TO PAYMENT →
+                <button type="submit" className="btn-submit-modal" disabled={isProcessing}>
+                  {isProcessing ? 'PROCESSING...' : 'PROCEED TO PAYMENT →'}
                 </button>
               </form>
+            </div>
+          </div>
+        )}
+
+        {/* Success Modal */}
+        {showSuccessModal && (
+          <div className="success-modal-overlay" onClick={() => setShowSuccessModal(false)}>
+            <div className="success-modal" onClick={(e) => e.stopPropagation()}>
+              <div className="success-modal-content">
+                {/* Success Icon - Green Checkmark */}
+                <div className="success-icon-circle">
+                  <svg className="success-checkmark-icon" viewBox="0 0 52 52">
+                    <circle className="success-checkmark-circle" cx="26" cy="26" r="25" fill="#10B981"/>
+                    <path className="success-checkmark-check" fill="none" stroke="#FFFFFF" strokeWidth="4" strokeLinecap="round" d="M14 27l8 8 16-16"/>
+                  </svg>
+                </div>
+                
+                {/* Main Message */}
+                <div className="success-header">
+                  <h2>Payment Successful!</h2>
+                  <p className="success-greeting">Welcome to the summit, {paymentDetails?.participantName}</p>
+                </div>
+                
+                {/* Payment Details Card */}
+                <div className="payment-details-card">
+                  <div className="detail-row">
+                    <span className="detail-label">Pass Type</span>
+                    <span className="detail-value course-badge">{paymentDetails?.passType}</span>
+                  </div>
+                  <div className="detail-divider"></div>
+                  <div className="detail-row">
+                    <span className="detail-label">Payment ID</span>
+                    <span className="detail-value payment-id">{paymentDetails?.paymentId}</span>
+                  </div>
+                </div>
+
+                {/* What's Next Section */}
+                <div className="whats-next-section">
+                  <h3 className="whats-next-title">What happens next?</h3>
+                  <div className="next-steps">
+                    <div className="next-step">
+                      <div className="step-icon">📧</div>
+                      <p>Confirmation email sent with event details</p>
+                    </div>
+                    <div className="next-step">
+                      <div className="step-icon">📱</div>
+                      <p>We'll contact you on WhatsApp shortly</p>
+                    </div>
+                    <div className="next-step">
+                      <div className="step-icon">🎫</div>
+                      <p>Your delegate pass will be ready at the venue</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Action Buttons */}
+                <div className="success-actions">
+                  <button 
+                    className="btn-primary-action"
+                    onClick={() => setShowSuccessModal(false)}
+                  >
+                    Close
+                  </button>
+                </div>
+
+                {/* Footer Note */}
+                <p className="success-footer-note">
+                  Need help? Contact us on WhatsApp at +91 93709 47790
+                </p>
+              </div>
             </div>
           </div>
         )}
