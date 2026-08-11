@@ -413,7 +413,7 @@ export default function NaviMumbaiSummit() {
               <div className="pricing-card-event">
                 <h3 className="pass-name">SILVER DELEGATE</h3>
                 <div className="pass-price">
-                  <span className="price-amount">INR 1,000</span>
+                  <span className="price-amount">INR 900 + 18% GST</span>
                   <span className="price-unit">per participant</span>
                 </div>
                 <div className="pass-features">
@@ -438,7 +438,7 @@ export default function NaviMumbaiSummit() {
                 <div className="recommended-badge">RECOMMENDED</div>
                 <h3 className="pass-name">GOLD DELEGATE</h3>
                 <div className="pass-price">
-                  <span className="price-amount">INR 3,150</span>
+                  <span className="price-amount">INR 2,700  + 18% GST</span>
                   <span className="price-unit">per participant</span>
                 </div>
                 <div className="pass-features">

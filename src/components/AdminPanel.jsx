@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import SEOHead from './SEOHead';
 import '../styles/AdminPanel.css';
 
@@ -15,9 +15,9 @@ export default function AdminPanel() {
   const [error, setError] = useState('');
   const [stats, setStats] = useState({
     total: 0,
-    basic: 0,
-    advance: 0,
-    master: 0
+    silver: 0,
+    gold: 0,
+    totalRevenue: 0
   });
 
   const handleLogin = async (e) => {
@@ -49,19 +49,20 @@ export default function AdminPanel() {
   };
 
   const calculateStats = (data) => {
-    setStats({
+    const courseStats = {
       total: data.length,
-      basic: data.filter(e => e.course === 'BASIC').length,
-      advance: data.filter(e => e.course === 'ADVANCE').length,
-      master: data.filter(e => e.course === 'MASTER').length
-    });
+      silver: data.filter(e => e.guest_type === 'Silver').length,
+      gold: data.filter(e => e.guest_type === 'Gold').length,
+      totalRevenue: data.reduce((sum, e) => sum + (e.payment_value || 0), 0)
+    };
+    setStats(courseStats);
   };
 
   const handleLogout = () => {
     setIsAuthenticated(false);
     setCredentials({ username: '', password: '' });
     setEnrollments([]);
-    setStats({ total: 0, basic: 0, advance: 0, master: 0 });
+    setStats({ total: 0, silver: 0, gold: 0, totalRevenue: 0 });
   };
 
   const handleRefresh = async () => {
@@ -96,6 +97,74 @@ export default function AdminPanel() {
     });
   };
 
+  const downloadCSV = () => {
+    if (enrollments.length === 0) {
+      alert('No data to download');
+      return;
+    }
+
+    // Define CSV headers - all database fields
+    const headers = [
+      'ID',
+      'Payment ID',
+      'Order ID',
+      'Name',
+      'Email',
+      'Mobile',
+      'Company Name',
+      'City',
+      'Turnover',
+      'Product/Service Details',
+      'Nature of Business',
+      'Challenges',
+      'Payment Status',
+      'Timestamp',
+      'Guest Type',
+      'Payment Value',
+      'Pass Type'
+    ];
+
+    // Convert data to CSV rows - all database fields
+    const rows = enrollments.map(e => [
+      e.id || '',
+      e.payment_id || '',
+      e.order_id || '',
+      e.name || '',
+      e.email || '',
+      e.mobile || '',
+      e.company_name || '',
+      e.city || '',
+      e.ton_over || '',
+      e.prod_serv_details || '',
+      e.nature_of_business || '',
+      e.challenges || '',
+      e.payment_status || '',
+      e.timestamp || '',
+      e.guest_type || '',
+      e.payment_value || '',
+      e.pass_type || ''
+    ]);
+
+    // Combine headers and rows
+    const csvContent = [
+      headers.join(','),
+      ...rows.map(row => row.map(cell => `"${cell}"`).join(','))
+    ].join('\n');
+
+    // Create blob and download
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+    
+    link.setAttribute('href', url);
+    link.setAttribute('download', `event_bookings_${new Date().toISOString().split('T')[0]}.csv`);
+    link.style.visibility = 'hidden';
+    
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   if (!isAuthenticated) {
     return (
       <>
@@ -109,7 +178,7 @@ export default function AdminPanel() {
           <div className="login-container">
             <div className="login-header">
               <h1>🔐 Admin Login</h1>
-              <p>Chinese Course Management</p>
+              <p>Event Bookings Management</p>
             </div>
 
             <form onSubmit={handleLogin} className="login-form">
@@ -163,7 +232,7 @@ export default function AdminPanel() {
         <div className="admin-header">
           <div className="admin-title">
             <h1>📊 Admin Dashboard</h1>
-            <p>Chinese Course Enrollments</p>
+            <p>Event Bookings Management</p>
           </div>
           <div className="admin-actions">
             <button onClick={handleRefresh} className="refresh-btn" disabled={loading}>
@@ -181,28 +250,28 @@ export default function AdminPanel() {
             <div className="stat-icon">👥</div>
             <div className="stat-info">
               <h3>{stats.total}</h3>
-              <p>Total Enrollments</p>
+              <p>Total Bookings</p>
             </div>
           </div>
           <div className="stat-card">
-            <div className="stat-icon">📚</div>
+            <div className="stat-icon">🥈</div>
             <div className="stat-info">
-              <h3>{stats.basic}</h3>
-              <p>Basic Course</p>
+              <h3>{stats.silver}</h3>
+              <p>Silver Delegates</p>
             </div>
           </div>
           <div className="stat-card">
-            <div className="stat-icon">📖</div>
+            <div className="stat-icon">🥇</div>
             <div className="stat-info">
-              <h3>{stats.advance}</h3>
-              <p>Advance Course</p>
+              <h3>{stats.gold}</h3>
+              <p>Gold Delegates</p>
             </div>
           </div>
-          <div className="stat-card">
-            <div className="stat-icon">🎓</div>
+          <div className="stat-card highlight">
+            <div className="stat-icon">💰</div>
             <div className="stat-info">
-              <h3>{stats.master}</h3>
-              <p>Master Course</p>
+              <h3>₹{stats.totalRevenue.toLocaleString('en-IN')}</h3>
+              <p>Total Revenue</p>
             </div>
           </div>
         </div>
@@ -210,50 +279,72 @@ export default function AdminPanel() {
         {/* Enrollments Table */}
         <div className="table-container">
           <div className="table-header">
-            <h2>Recent Enrollments</h2>
-            <span className="table-count">{enrollments.length} records</span>
+            <h2>Event Bookings</h2>
+            <div className="table-actions">
+              <span className="table-count">{enrollments.length} records</span>
+              <button onClick={downloadCSV} className="download-btn">
+                📥 Download CSV
+              </button>
+            </div>
           </div>
 
           {loading ? (
             <div className="loading">Loading...</div>
+          ) : enrollments.length === 0 ? (
+            <div className="no-data">No bookings found</div>
           ) : (
             <div className="table-wrapper">
               <table className="enrollments-table">
                 <thead>
                   <tr>
-                    <th>ID</th>
+                    <th>#</th>
                     <th>Name</th>
                     <th>Email</th>
                     <th>Mobile</th>
-                    <th>Location</th>
-                    <th>Course</th>
+                    <th>Company</th>
+                    <th>City</th>
+                    <th>Turnover</th>
+                    <th>Business</th>
+                    <th>Products/Services</th>
+                    <th>Challenges</th>
+                    <th>Guest Type</th>
+                    <th>Amount</th>
                     <th>Payment ID</th>
+                    <th>Order ID</th>
                     <th>Status</th>
                     <th>Date</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {enrollments.map((enrollment) => (
-                    <tr key={enrollment.id}>
-                      <td>{enrollment.id}</td>
-                      <td className="name-cell">{enrollment.name}</td>
-                      <td>{enrollment.email}</td>
-                      <td>{enrollment.mobile}</td>
+                  {enrollments.map((enrollment, index) => (
+                    <tr key={enrollment.id || index}>
+                      <td>{index + 1}</td>
+                      <td className="name-cell">{enrollment.name || '-'}</td>
+                      <td className="email-cell">{enrollment.email || '-'}</td>
+                      <td>{enrollment.mobile || '-'}</td>
+                      <td className="company-cell">{enrollment.company_name || '-'}</td>
+                      <td>{enrollment.city || '-'}</td>
+                      <td>{enrollment.ton_over || '-'}</td>
+                      <td className="business-cell">{enrollment.nature_of_business || '-'}</td>
+                      <td className="products-cell">{enrollment.prod_serv_details || '-'}</td>
+                      <td className="challenges-cell">{enrollment.challenges || '-'}</td>
                       <td>
-                        <div className="location-cell">
-                          {enrollment.city}, {enrollment.state}
-                          <span className="country">{enrollment.country}</span>
-                        </div>
+                        {enrollment.guest_type ? (
+                          <span className={`guest-badge ${enrollment.guest_type.toLowerCase()}`}>
+                            {enrollment.guest_type}
+                          </span>
+                        ) : (
+                          '-'
+                        )}
                       </td>
-                      <td>
-                        <span className={`course-badge ${enrollment.course.toLowerCase()}`}>
-                          {enrollment.course}
-                        </span>
+                      <td className="amount-cell">
+                        {enrollment.payment_value ? `₹${enrollment.payment_value.toLocaleString('en-IN')}` : '-'}
                       </td>
-                      <td className="payment-id">{enrollment.payment_id}</td>
+                      <td className="payment-id">{enrollment.payment_id || '-'}</td>
+                      <td className="payment-id">{enrollment.order_id || '-'}</td>
                       <td>
-                        <span className={`status-badge ${enrollment.payment_status}`}>
-                          {enrollment.payment_status}
+                        <span className={`status-badge ${enrollment.payment_status || 'unknown'}`}>
+                          {enrollment.payment_status || 'unknown'}
                         </span>
                       </td>
                       <td className="date-cell">{formatDate(enrollment.timestamp)}</td>
