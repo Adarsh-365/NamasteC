@@ -2014,3 +2014,23 @@ ul { list-style: none; padding: 0; margin: 0; }
         grid-template-columns: 1fr;
     }
 }
+
+
+
+.form-group-modal input,
+.form-group-modal select {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 15px;
+  background: #fff;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.form-group-modal input:focus,
+.form-group-modal select:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}

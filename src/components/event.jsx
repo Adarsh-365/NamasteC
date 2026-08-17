@@ -641,18 +641,22 @@ export default function NaviMumbaiSummit() {
                       required
                     />
                   </div>
-                  <div className="form-group-modal">
-                    <label htmlFor="ton_over">Company Turnover *</label>
-                    <input
-                      type="text"
-                      id="ton_over"
-                      name="ton_over"
-                      placeholder="Annual turnover"
-                      value={formData.ton_over}
-                      onChange={handleChange}
-                      required
-                    />
-                  </div>
+                 <div className="form-group-modal">
+                  <label htmlFor="ton_over">Company Turnover *</label>
+
+                  <select
+                    id="ton_over"
+                    name="ton_over"
+                    value={formData.ton_over}
+                    onChange={handleChange}
+                    required
+                  >
+                    <option value="">Select annual turnover</option>
+                    <option value="< 1 Cr">Less than ₹1 Cr</option>
+                    <option value="1 - 3 Cr">₹1 Cr - ₹3 Cr</option>
+                    <option value="> 3 Cr">More than ₹3 Cr</option>
+                  </select>
+                </div>
                 </div>
 
                 {/* Row 4 - 2 columns */}
